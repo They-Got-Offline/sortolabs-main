@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3406 Howard St - For Rent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --slate:   #1C2333;
+      --slate-mid: #28374F;
+      --fog:     #8A9BB0;
+      --linen:   #F0EAE0;
+      --brass:   #C8A96E;
+      --brass-light: #DFC28E;
+      --white:   #FFFFFF;
+      --card-bg: #FFFFFF;
+      --radius:  6px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--slate);
+      color: var(--linen);
+      min-height: 100vh;
+    }
+
+    /* ─── NAV ─────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      background: linear-gradient(to bottom, rgba(28,35,51,0.98) 0%, rgba(28,35,51,0) 100%);
+    }
+    .nav-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      color: var(--brass);
+      text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--fog);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--linen); }
+
+    /* ─── HERO ────────────────────────────────────── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to top, rgba(28,35,51,1) 0%, rgba(28,35,51,0.55) 50%, rgba(28,35,51,0.3) 100%),
+        url('images/20260607-191342.jpg') center/cover no-repeat;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 48px 64px;
+    }
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      color: var(--brass);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .hero-address {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(52px, 8vw, 110px);
+      font-weight: 300;
+      line-height: 0.95;
+      letter-spacing: -0.01em;
+      color: var(--linen);
+      margin-bottom: 8px;
+    }
+    .hero-address em {
+      font-style: italic;
+      color: var(--brass-light);
+    }
+    .hero-city {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(18px, 2.5vw, 28px);
+      font-weight: 300;
+      letter-spacing: 0.14em;
+      color: var(--fog);
+      text-transform: uppercase;
+      margin-bottom: 36px;
+    }
+    .hero-meta {
+      display: flex;
+      gap: 40px;
+      align-items: flex-end;
+    }
+    .hero-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 42px;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1;
+    }
+    .hero-price span {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--fog);
+      margin-left: 4px;
+    }
+    .hero-badges {
+      display: flex;
+      gap: 12px;
+    }
+    .badge {
+      padding: 6px 14px;
+      border: 1px solid rgba(200,169,110,0.4);
+      border-radius: 2px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--brass-light);
+      text-transform: uppercase;
+    }
+    .hero-cta {
+      margin-left: auto;
+    }
+    .btn-primary {
+      display: inline-block;
+      padding: 14px 32px;
+      background: var(--brass);
+      color: var(--slate);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover {
+      background: var(--brass-light);
+      transform: translateY(-1px);
+    }
+
+    /* ─── GALLERY ─────────────────────────────────── */
+    .gallery-section {
+      padding: 72px 0 0;
+    }
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      color: var(--brass);
+      text-transform: uppercase;
+      padding: 0 48px;
+      margin-bottom: 24px;
+    }
+    .gallery-track {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 0 48px 24px;
+      scrollbar-width: none;
+      scroll-snap-type: x mandatory;
+    }
+    .gallery-track::-webkit-scrollbar { display: none; }
+    .gallery-item {
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .gallery-item img {
+      display: block;
+      height: 300px;
+      width: auto;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .gallery-item:hover img { transform: scale(1.03); }
+    .gallery-item.wide img { width: 480px; }
+    .gallery-item.tall img { width: 320px; }
+
+    /* ─── DETAILS GRID ────────────────────────────── */
+    .details-section {
+      padding: 80px 48px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 64px;
+    }
+
+    .details-left h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 42px;
+      font-weight: 300;
+      line-height: 1.2;
+      color: var(--linen);
+      margin-bottom: 24px;
+    }
+    .details-left p {
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--fog);
+      max-width: 560px;
+      margin-bottom: 48px;
+    }
+
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(138,155,176,0.15);
+      border: 1px solid rgba(138,155,176,0.15);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 48px;
+    }
+    .spec-item {
+      background: var(--slate-mid);
+      padding: 24px 20px;
+      text-align: center;
+    }
+    .spec-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 34px;
+      font-weight: 400;
+      color: var(--linen);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .spec-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      color: var(--fog);
+      text-transform: uppercase;
+    }
+
+    .features-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 32px;
+    }
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--fog);
+    }
+    .feature-item::before {
+      content: '';
+      display: block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--brass);
+      flex-shrink: 0;
+    }
+
+    /* ─── INQUIRY CARD ────────────────────────────── */
+    .inquiry-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 36px;
+      color: var(--slate);
+      align-self: start;
+      position: sticky;
+      top: 100px;
+    }
+    .inquiry-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 400;
+      margin-bottom: 4px;
+      color: var(--slate);
+    }
+    .inquiry-card .price-label {
+      font-size: 13px;
+      color: #6B7280;
+      margin-bottom: 28px;
+    }
+    .inquiry-card .price-label strong {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--slate);
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: #6B7280;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #E5E7EB;
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--slate);
+      background: #FAFAFA;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--brass);
+      background: #FFF;
+    }
+    .form-group textarea { resize: none; height: 80px; }
+
+    .date-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .inquiry-card .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: var(--slate);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+    .inquiry-card .btn-submit:hover { background: var(--slate-mid); }
+
+    .inquiry-note {
+      font-size: 12px;
+      color: #9CA3AF;
+      text-align: center;
+      margin-top: 14px;
+    }
+
+    .divider {
+      height: 1px;
+      background: rgba(138,155,176,0.15);
+      margin: 0 48px;
+    }
+
+    /* ─── LOCATION ────────────────────────────────── */
+    .location-section {
+      padding: 80px 48px;
+    }
+    .location-section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 38px;
+      font-weight: 300;
+      color: var(--linen);
+      margin-bottom: 12px;
+    }
+    .location-section p {
+      font-size: 15px;
+      color: var(--fog);
+      max-width: 500px;
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+
+    .map-placeholder {
+      width: 100%;
+      height: 320px;
+      background: var(--slate-mid);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .map-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(138,155,176,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(138,155,176,0.07) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .map-pin {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .pin-dot {
+      width: 16px;
+      height: 16px;
+      background: var(--brass);
+      border-radius: 50%;
+      box-shadow: 0 0 0 6px rgba(200,169,110,0.25), 0 0 0 12px rgba(200,169,110,0.1);
+    }
+    .pin-label {
+      background: var(--white);
+      color: var(--slate);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .nearby-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 36px;
+    }
+    .nearby-item {
+      background: var(--slate-mid);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .nearby-item .nearby-type {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      color: var(--brass);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .nearby-item .nearby-name {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--linen);
+      margin-bottom: 4px;
+    }
+    .nearby-item .nearby-dist {
+      font-size: 13px;
+      color: var(--fog);
+    }
+
+    /* ─── FOOTER ──────────────────────────────────── */
+    footer {
+      border-top: 1px solid rgba(138,155,176,0.15);
+      padding: 32px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer .footer-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      letter-spacing: 0.1em;
+      color: var(--brass);
+    }
+    footer p {
+      font-size: 12px;
+      color: var(--fog);
+    }
+
+    /* ─── SCROLL HINT ─────────────────────────────── */
+    .scroll-hint {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .scroll-hint span {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: var(--fog);
+      text-transform: uppercase;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--brass), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.1); }
+    }
+
+    /* ─── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .hero-content { padding: 0 24px 48px; }
+      .hero-meta { flex-wrap: wrap; gap: 20px; }
+      .hero-cta { margin-left: 0; }
+      .gallery-track { padding: 0 24px 24px; }
+      .section-label { padding: 0 24px; }
+      .details-section {
+        grid-template-columns: 1fr;
+        padding: 60px 24px;
+        gap: 48px;
+      }
+      .inquiry-card { position: static; }
+      .specs-grid { grid-template-columns: repeat(2, 1fr); }
+      .location-section { padding: 60px 24px; }
+      .nearby-grid { grid-template-columns: 1fr 1fr; }
+      footer { padding: 24px; flex-direction: column; gap: 12px; text-align: center; }
+      .divider { margin: 0 24px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-line { animation: none; }
+      .gallery-item img { transition: none; }
+      .btn-primary { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-brand">Rentals</div>
+    <ul class="nav-links">
+      <li><a href="#gallery">Photos</a></li>
+      <li><a href="#details">Details</a></li>
+      <li><a href="#location">Location</a></li>
+      <li><a href="#inquire">Inquire</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Now available for lease</p>
+      <h1 class="hero-address">3406<br><em>Howard</em><br>Street</h1>
+      <p class="hero-city">Fort Worth, Texas · 76119</p>
+      <div class="hero-meta">
+        <div>
+          <div class="hero-price">$1,700<span>/ month</span></div>
+        </div>
+        <div class="hero-badges">
+          <div class="badge">3 Bed</div>
+          <div class="badge">1.5 Bath</div>
+          <div class="badge">1,280 sqft</div>
+        </div>
+        <div class="hero-cta">
+          <a href="#inquire" class="btn-primary">Schedule a Showing</a>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+ <section class="gallery-section" id="gallery">
+    <p class="section-label">Interior & Exterior</p>
+    <div class="gallery-track">
+      <div class="gallery-item wide">
+        <img src="images/20260607-191342.jpg" alt="Modern kitchen with stone countertops">
+      </div>
+      <div class="gallery-item tall">
+        <img src="images/20260607-191103.jpg" alt="Bright living room">
+      </div>
+      <div class="gallery-item wide">
+        <img src="images/20260607-191049.jpg" alt="Primary bedroom">
+      </div>
+      <div class="gallery-item tall">
+        <img src="images/20260607-191118.jpg" alt="Bathroom with soaking tub">
+      </div>
+      <div class="gallery-item wide">
+        <img src="images/20260607-190905.jpg" alt="Back yard and deck">
+      </div>
+    </div>
+  </section>
+
+  <!-- DETAILS -->
+  <section class="details-section" id="details">
+    <div class="details-left">
+      <h2>A home that has been loved well.</h2>
+      <p>Built in 1940 and meticulously renovated, 3406 Howard St sits on a quiet, tree-lined street just a short drive from the heart of Fort Worth. New hardwood floors, stone countertops, and new microwave in the kitchen — the bones are irreplaceable, the finishes are brand new. The fenced backyard and front porch make it one of the most livable homes on the market this season.</p>
+
+      <div class="specs-grid">
+        <div class="spec-item">
+          <div class="spec-value">3</div>
+          <div class="spec-label">Bedrooms</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-value">1.5</div>
+          <div class="spec-label">Bathrooms</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-value">1,280</div>
+          <div class="spec-label">Square Feet</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-value"><span class="Text-c11n-8-111-2__sc-aiai24-0 cBWTkV">3</span></div>
+          <div class="spec-label">Parking spaces</div>
+        </div>
+      </div>
+
+      <div class="features-list">
+        <div class="feature-item">New hardwood floors</div>
+        <div class="feature-item">3-car parking</div>
+        <div class="feature-item">Central air & heat</div>
+        <div class="feature-item">Front porch</div>
+        <div class="feature-item">Fenced backyard</div>
+        <div class="feature-item">Primary suite with walk-in</div>
+        <div class="feature-item">No pets</div>
+        <div class="feature-item">Available June&nbsp; 1, 2026</div>
+      </div>
+    </div>
+
+    <!-- INQUIRY CARD -->
+    <div class="inquiry-card" id="inquire">
+      <h3>Request a Showing</h3>
+      <p class="price-label"><strong>$1,700</strong> / month</p>
+
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" placeholder="Name" />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" placeholder="email@example.com" />
+      </div>
+      <div class="form-group">
+        <label>Phone</label>
+        <input type="tel" placeholder="(555) 000-0000" />
+      </div>
+      <div class="form-group date-row">
+        <div>
+          <label>Move-in Date</label>
+          <input type="date" />
+        </div>
+        <div>
+          <label>Tour Date</label>
+          <input type="date" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Message (optional)</label>
+        <textarea placeholder="Questions, number of occupants, pets…"></textarea>
+      </div>
+      <button class="btn-submit">Send Request</button>
+      <p class="inquiry-note">No commitment — we'll confirm within 24 hours.</p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- LOCATION -->
+  <section class="location-section" id="location">
+    <p class="section-label">Neighborhood</p>
+    <h2>Everything within reach.</h2>
+    <p>The neighborhood offers incredible accessibility, with just a 10-minute drive to Downtown Fort Worth. The house sits within the zone for Oaklawn Elementary School, a short walk from nearby transit stops, and just minutes from local parks, grocery stores, and beloved neighborhood coffee shops.</p>
+
+    <div class="map-placeholder">
+      <div class="map-grid"></div>
+      <div class="map-pin">=
+        <div class="pin-dot"></div>
+        <div class="pin-label">3406 Howard St</div>
+      </div>
+    </div>
+
+    <div class="nearby-grid">
+      <div class="nearby-item">
+        <div class="nearby-type">Transit</div>
+        <div class="nearby-name">Trinity Metro Bus Stop</div>
+        <div class="nearby-dist">0.5 mi · 10 min walk</div>
+      </div>
+      <div class="nearby-item">
+        <div class="nearby-type">Schools</div>
+        <div class="nearby-name">Oaklawn Elementary School</div>
+        <div class="nearby-dist">0.5 mi · 10 min walk</div>
+      </div>
+      <div class="nearby-item">
+        <div class="nearby-type">Grocery</div>
+        <div class="nearby-name">Walmart Supercenter</div>
+        <div class="nearby-dist">1.0 mi · 4 min drive</div>
+      </div>
+      <div class="nearby-item">
+        <div class="nearby-type">Park</div>
+        <div class="nearby-name">Rolling Hills Park</div>
+        <div class="nearby-dist">2.5 mi · 6 min drive</div>
+      </div>
+      <div class="nearby-item">
+        <div class="nearby-type">Coffee</div>
+        <div class="nearby-name">Paris Coffee Shop</div>
+        <div class="nearby-dist">4.5 mi · 9 min drive</div>
+      </div>
+      <div class="nearby-item">
+        <div class="nearby-type">City</div>
+        <div class="nearby-name">Downtown Fort Worthn</div>
+        <div class="nearby-dist">5.0 mi · 10 min drive</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">Rentals</div>
+    <p>Listed by  · (973) 000-0000 · name@email.com</p>
+  </footer>
+
+</body>
+</html>
