@@ -1,7 +1,683 @@
 <!DOCTYPE html>
-<html>
-<head><title>Sorto Labs</title></head>
-<body><h1>Coming Soon</h1>
-<a href="./rentals/" class="button">Go to Rentals</a>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorto Labs – Tech Hub & Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ========== RESET & BASE ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+            color: #f0f1f5;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ========== COLOR PALETTE ========== */
+        :root {
+            --bg-dark: #0f1419;
+            --bg-secondary: #1a1f2e;
+            --accent-cyan: #00d9ff;
+            --accent-amber: #ff9500;
+            --accent-purple: #b537f2;
+            --text-primary: #f0f1f5;
+            --text-secondary: #a0a8b8;
+            --border-color: #2d3748;
+            --glow-cyan: 0 0 20px rgba(0, 217, 255, 0.4);
+            --glow-amber: 0 0 20px rgba(255, 149, 0, 0.3);
+        }
+
+        /* ========== NAVBAR ========== */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(15, 20, 25, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+            border-bottom-color: var(--accent-cyan);
+        }
+
+        /* ========== HERO SECTION ========== */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 700;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 30px rgba(0, 217, 255, 0.6), 0 0 60px rgba(0, 217, 255, 0.3);
+            animation: glitch-fade 1s ease-out;
+        }
+
+        @keyframes glitch-fade {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+            animation: glitch-fade 1.2s ease-out;
+        }
+
+        .hero .tagline {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            color: var(--accent-amber);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.5rem;
+            animation: glitch-fade 1.4s ease-out;
+        }
+
+        /* ========== PROJECTS GRID ========== */
+        .projects-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .project-card {
+            background: rgba(26, 31, 46, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 217, 255, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent-cyan);
+            background: rgba(26, 31, 46, 0.95);
+            box-shadow: var(--glow-cyan), inset 0 0 20px rgba(0, 217, 255, 0.1);
+            transform: translateY(-8px);
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            filter: drop-shadow(0 0 8px rgba(0, 217, 255, 0.4));
+            transition: filter 0.3s ease;
+        }
+
+        .project-card:hover .card-icon {
+            filter: drop-shadow(0 0 16px rgba(0, 217, 255, 0.7));
+        }
+
+        .card-icon.amber {
+            filter: drop-shadow(0 0 8px rgba(255, 149, 0, 0.4));
+        }
+
+        .project-card:hover .card-icon.amber {
+            filter: drop-shadow(0 0 16px rgba(255, 149, 0, 0.7));
+        }
+
+        .card-icon.purple {
+            filter: drop-shadow(0 0 8px rgba(181, 55, 242, 0.4));
+        }
+
+        .project-card:hover .card-icon.purple {
+            filter: drop-shadow(0 0 16px rgba(181, 55, 242, 0.7));
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .project-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover .tag {
+            background: var(--accent-cyan);
+            color: var(--bg-dark);
+        }
+
+        .tag.amber {
+            background: rgba(255, 149, 0, 0.1);
+            border-color: var(--accent-amber);
+            color: var(--accent-amber);
+        }
+
+        .project-card:hover .tag.amber {
+            background: var(--accent-amber);
+            color: var(--bg-dark);
+        }
+
+        .tag.purple {
+            background: rgba(181, 55, 242, 0.1);
+            border-color: var(--accent-purple);
+            color: var(--accent-purple);
+        }
+
+        .project-card:hover .tag.purple {
+            background: var(--accent-purple);
+            color: var(--text-primary);
+        }
+
+        /* ========== CTA SECTION ========== */
+        .cta-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .cta-banner {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(181, 55, 242, 0.1) 100%);
+            border: 2px solid var(--accent-cyan);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: var(--glow-cyan), inset 0 0 20px rgba(0, 217, 255, 0.05);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.2), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        .cta-banner h2 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-banner p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-rentals {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--accent-cyan), #00b8cc);
+            border: none;
+            border-radius: 6px;
+            color: var(--bg-dark);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-rentals:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 0 40px rgba(0, 217, 255, 0.8), 0 8px 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .btn-rentals:active {
+            transform: translateY(-2px);
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            background: rgba(15, 20, 25, 0.95);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-links a {
+                font-size: 0.85rem;
+            }
+
+            .hero {
+                padding: 4rem 1.5rem;
+            }
+
+            .hero h1 {
+                text-shadow: 0 0 20px rgba(0, 217, 255, 0.4), 0 0 40px rgba(0, 217, 255, 0.2);
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .projects-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .cta-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .cta-banner {
+                padding: 2rem 1.5rem;
+            }
+
+            .btn-rentals {
+                width: 100%;
+                padding: 1.2rem 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                letter-spacing: 1px;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .project-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .card-icon {
+                width: 70px;
+                height: 70px;
+            }
+
+            .project-card h3 {
+                font-size: 1.25rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .cta-banner h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* ========== ACCESSIBILITY ========== */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .cta-banner::before {
+                animation: none;
+            }
+        }
+
+        /* ========== FOCUS STATES ========== */
+        .nav-links a:focus,
+        .btn-rentals:focus {
+            outline: 2px solid var(--accent-cyan);
+            outline-offset: 2px;
+        }
+
+        /* ========== UTILITY ========== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ========== NAVIGATION ========== -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-title">Sorto Labs</div>
+            <ul class="nav-links">
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#rentals">Rentals</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ========== HERO SECTION ========== -->
+    <section class="hero">
+        <div class="tagline">Welcome to</div>
+        <h1>Sorto Labs</h1>
+        <p>
+            A maker's workshop at the intersection of hardware engineering, creative tech, and hands-on problem-solving. 
+            Specializing in 3D manufacturing, and portable audio systems.
+        </p>
+    </section>
+
+    <!-- ========== PROJECTS SECTION ========== -->
+    <section class="projects-section" id="projects">
+        <div class="section-header">
+            <h2>Core Projects</h2>
+        </div>
+
+        <div class="projects-grid">
+            <!-- Card 1: 3D Design & Manufacturing -->
+            <div class="project-card">
+                <svg class="card-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <!-- 3D Printer/Manufacturing Icon -->
+                    <defs>
+                        <linearGradient id="grad3d" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#00d9ff;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#00a8cc;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="15" y="20" width="70" height="60" fill="none" stroke="url(#grad3d)" stroke-width="2" rx="4"/>
+                    <line x1="25" y1="35" x2="75" y2="35" stroke="url(#grad3d)" stroke-width="1.5"/>
+                    <line x1="25" y1="50" x2="75" y2="50" stroke="url(#grad3d)" stroke-width="1.5"/>
+                    <circle cx="50" cy="70" r="8" fill="none" stroke="url(#grad3d)" stroke-width="2"/>
+                    <path d="M 35 75 Q 50 85 65 75" fill="none" stroke="url(#grad3d)" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <h3>3D Design & Manufacturing</h3>
+                <p>
+                    FDM 3D printing, functional engineering prints, and digital 3D sculpting. 
+                    From concept to finished prototype—rapid iteration and material solutions.
+                </p>
+                <div class="card-tags">
+                    <span class="tag">FDM Printing</span>
+                    <span class="tag">CAD Design</span>
+                    <span class="tag">Prototyping</span>
+                </div>
+            </div>
+
+            <!-- Card 2: Hardware Audio Studio -->
+            <div class="project-card">
+                <svg class="card-icon amber" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Audio/Synth Icon -->
+                    <defs>
+                        <linearGradient id="gradaudio" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#ff9500;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#ff7a00;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="50" cy="45" r="6" fill="url(#gradaudio)"/>
+                    <path d="M 50 51 L 50 70" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M 40 55 Q 35 50 35 45" fill="none" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M 60 55 Q 65 50 65 45" fill="none" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M 35 65 L 25 75" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M 65 65 L 75 75" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
+                    <rect x="20" y="75" width="15" height="8" fill="url(#gradaudio)" rx="2"/>
+                    <rect x="65" y="75" width="15" height="8" fill="url(#gradaudio)" rx="2"/>
+                </svg>
+                <h3>Hardware Audio Studio</h3>
+                <p>
+                    Portable, battery-powered, and offline music setup. Hardware synths, electric guitars, 
+                    MIDI routing, and sequencing—complete sonic independence.
+                </p>
+                <div class="card-tags">
+                    <span class="tag amber">Synths</span>
+                    <span class="tag amber">MIDI</span>
+                    <span class="tag amber">Sequencing</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <svg class="card-icon amber" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Audio/Synth Icon -->
+                    <defs>
+                        <linearGradient id="gradaudio" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#ff9500;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#ff7a00;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="50" cy="45" r="6" fill="url(#gradaudio)"/>
+                    <path d="M 50 51 L 50 70" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M 40 55 Q 35 50 35 45" fill="none" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M 60 55 Q 65 50 65 45" fill="none" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M 35 65 L 25 75" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M 65 65 L 75 75" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
+                    <rect x="20" y="75" width="15" height="8" fill="url(#gradaudio)" rx="2"/>
+                    <rect x="65" y="75" width="15" height="8" fill="url(#gradaudio)" rx="2"/>
+                </svg>
+                <h3>Hardware Audio Studio</h3>
+                <p>
+                    Portable, battery-powered, and offline music setup. Hardware synths, electric guitars, 
+                    MIDI routing, and sequencing—complete sonic independence.
+                </p>
+                <div class="card-tags">
+                    <span class="tag amber">Synths</span>
+                    <span class="tag amber">MIDI</span>
+                    <span class="tag amber">Sequencing</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <svg class="card-icon amber" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Audio/Synth Icon -->
+                    <defs>
+                        <linearGradient id="gradaudio" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#ff9500;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#ff7a00;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="50" cy="45" r="6" fill="url(#gradaudio)"/>
+                    <path d="M 50 51 L 50 70" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M 40 55 Q 35 50 35 45" fill="none" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M 60 55 Q 65 50 65 45" fill="none" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M 35 65 L 25 75" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M 65 65 L 75 75" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
+                    <rect x="20" y="75" width="15" height="8" fill="url(#gradaudio)" rx="2"/>
+                    <rect x="65" y="75" width="15" height="8" fill="url(#gradaudio)" rx="2"/>
+                </svg>
+                <h3>Hardware Audio Studio</h3>
+                <p>
+                    Portable, battery-powered, and offline music setup. Hardware synths, electric guitars, 
+                    MIDI routing, and sequencing—complete sonic independence.
+                </p>
+                <div class="card-tags">
+                    <span class="tag amber">Synths</span>
+                    <span class="tag amber">MIDI</span>
+                    <span class="tag amber">Sequencing</span>
+                </div>
+            </div>
+
+            <!-- Card 3: Tabletop & Game Design -->
+        </div>
+    </section>
+
+    <!-- ========== CTA SECTION ========== -->
+    <section class="cta-section" id="rentals">
+        <div class="cta-banner">
+            <h2>Property Rentals</h2>
+            <p>
+                Explore our rental listings and property offerings.</p>
+            <a href="./rentals/" class="btn-rentals">View Property Rentals</a>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer>
+        <p>© 2026 Sorto Labs. All rights reserved. Built with precision and passion.</p>
+    </footer>
+
 </body>
+
 </html>
