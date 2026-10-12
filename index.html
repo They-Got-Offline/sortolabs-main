@@ -3,679 +3,653 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sorto Labs – Tech Hub & Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <title>EMS Operations & Safety Interactive Quiz</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ========== RESET & BASE ========== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
-            color: #f0f1f5;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* ========== COLOR PALETTE ========== */
-        :root {
-            --bg-dark: #0f1419;
-            --bg-secondary: #1a1f2e;
-            --accent-cyan: #00d9ff;
-            --accent-amber: #ff9500;
-            --accent-purple: #b537f2;
-            --text-primary: #f0f1f5;
-            --text-secondary: #a0a8b8;
-            --border-color: #2d3748;
-            --glow-cyan: 0 0 20px rgba(0, 217, 255, 0.4);
-            --glow-amber: 0 0 20px rgba(255, 149, 0, 0.3);
-        }
-
-        /* ========== NAVBAR ========== */
-        nav {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background: rgba(15, 20, 25, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-            padding: 1rem 2rem;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-title {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--accent-cyan);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border-bottom: 2px solid transparent;
-            padding-bottom: 4px;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent-cyan);
-            border-bottom-color: var(--accent-cyan);
-        }
-
-        /* ========== HERO SECTION ========== */
-        .hero {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 6rem 2rem;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: clamp(3rem, 8vw, 5.5rem);
-            font-weight: 700;
-            color: var(--accent-cyan);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 1.5rem;
-            text-shadow: 0 0 30px rgba(0, 217, 255, 0.6), 0 0 60px rgba(0, 217, 255, 0.3);
-            animation: glitch-fade 1s ease-out;
-        }
-
-        @keyframes glitch-fade {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero p {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            max-width: 700px;
-            margin: 0 auto 3rem;
-            line-height: 1.8;
-            animation: glitch-fade 1.2s ease-out;
-        }
-
-        .hero .tagline {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.95rem;
-            color: var(--accent-amber);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 0.5rem;
-            animation: glitch-fade 1.4s ease-out;
-        }
-
-        /* ========== PROJECTS GRID ========== */
-        .projects-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-header h2 {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: clamp(2rem, 5vw, 3rem);
-            color: var(--accent-cyan);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 1rem;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-
-        .project-card {
-            background: rgba(26, 31, 46, 0.6);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 2.5rem 2rem;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(0, 217, 255, 0.1) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            pointer-events: none;
-        }
-
-        .project-card:hover {
-            border-color: var(--accent-cyan);
-            background: rgba(26, 31, 46, 0.95);
-            box-shadow: var(--glow-cyan), inset 0 0 20px rgba(0, 217, 255, 0.1);
-            transform: translateY(-8px);
-        }
-
-        .project-card:hover::before {
-            opacity: 1;
-        }
-
-        .card-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1.5rem;
-            filter: drop-shadow(0 0 8px rgba(0, 217, 255, 0.4));
-            transition: filter 0.3s ease;
-        }
-
-        .project-card:hover .card-icon {
-            filter: drop-shadow(0 0 16px rgba(0, 217, 255, 0.7));
-        }
-
-        .card-icon.amber {
-            filter: drop-shadow(0 0 8px rgba(255, 149, 0, 0.4));
-        }
-
-        .project-card:hover .card-icon.amber {
-            filter: drop-shadow(0 0 16px rgba(255, 149, 0, 0.7));
-        }
-
-        .card-icon.purple {
-            filter: drop-shadow(0 0 8px rgba(181, 55, 242, 0.4));
-        }
-
-        .project-card:hover .card-icon.purple {
-            filter: drop-shadow(0 0 16px rgba(181, 55, 242, 0.7));
-        }
-
-        .project-card h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
-
-        .project-card p {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-            margin-bottom: 1.5rem;
-        }
-
-        .card-tags {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 1.5rem;
-        }
-
-        .tag {
-            display: inline-block;
-            padding: 0.4rem 0.8rem;
-            background: rgba(0, 217, 255, 0.1);
-            border: 1px solid var(--accent-cyan);
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            color: var(--accent-cyan);
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-        }
-
-        .project-card:hover .tag {
-            background: var(--accent-cyan);
-            color: var(--bg-dark);
-        }
-
-        .tag.amber {
-            background: rgba(255, 149, 0, 0.1);
-            border-color: var(--accent-amber);
-            color: var(--accent-amber);
-        }
-
-        .project-card:hover .tag.amber {
-            background: var(--accent-amber);
-            color: var(--bg-dark);
-        }
-
-        .tag.purple {
-            background: rgba(181, 55, 242, 0.1);
-            border-color: var(--accent-purple);
-            color: var(--accent-purple);
-        }
-
-        .project-card:hover .tag.purple {
-            background: var(--accent-purple);
-            color: var(--text-primary);
-        }
-
-        /* ========== CTA SECTION ========== */
-        .cta-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
-        }
-
-        .cta-banner {
-            background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(181, 55, 242, 0.1) 100%);
-            border: 2px solid var(--accent-cyan);
-            border-radius: 12px;
-            padding: 3rem 2rem;
-            text-align: center;
-            box-shadow: var(--glow-cyan), inset 0 0 20px rgba(0, 217, 255, 0.05);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-banner::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.2), transparent);
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { left: -100%; }
-            50% { left: 100%; }
-            100% { left: 100%; }
-        }
-
-        .cta-banner h2 {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            color: var(--accent-cyan);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 1rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .cta-banner p {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .btn-rentals {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: linear-gradient(135deg, var(--accent-cyan), #00b8cc);
-            border: none;
-            border-radius: 6px;
-            color: var(--bg-dark);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
-            box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
-            position: relative;
-            z-index: 2;
-        }
-
-        .btn-rentals:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 0 40px rgba(0, 217, 255, 0.8), 0 8px 20px rgba(0, 217, 255, 0.3);
-        }
-
-        .btn-rentals:active {
-            transform: translateY(-2px);
-        }
-
-        /* ========== FOOTER ========== */
-        footer {
-            background: rgba(15, 20, 25, 0.95);
-            border-top: 1px solid var(--border-color);
-            padding: 2rem;
-            text-align: center;
-            margin-top: 4rem;
-        }
-
-        footer p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        /* ========== RESPONSIVE ========== */
-        @media (max-width: 768px) {
-            nav {
-                padding: 1rem;
-            }
-
-            .nav-container {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-
-            .nav-links {
-                gap: 1rem;
-            }
-
-            .nav-links a {
-                font-size: 0.85rem;
-            }
-
-            .hero {
-                padding: 4rem 1.5rem;
-            }
-
-            .hero h1 {
-                text-shadow: 0 0 20px rgba(0, 217, 255, 0.4), 0 0 40px rgba(0, 217, 255, 0.2);
-            }
-
-            .projects-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .projects-section {
-                padding: 2rem 1.5rem;
-            }
-
-            .cta-section {
-                padding: 2rem 1.5rem;
-            }
-
-            .cta-banner {
-                padding: 2rem 1.5rem;
-            }
-
-            .btn-rentals {
-                width: 100%;
-                padding: 1.2rem 2rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero h1 {
-                letter-spacing: 1px;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .project-card {
-                padding: 2rem 1.5rem;
-            }
-
-            .card-icon {
-                width: 70px;
-                height: 70px;
-            }
-
-            .project-card h3 {
-                font-size: 1.25rem;
-            }
-
-            .section-header h2 {
-                font-size: 1.5rem;
-            }
-
-            .cta-banner h2 {
-                font-size: 1.5rem;
-            }
-        }
-
-        /* ========== ACCESSIBILITY ========== */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-
-            .cta-banner::before {
-                animation: none;
-            }
-        }
-
-        /* ========== FOCUS STATES ========== */
-        .nav-links a:focus,
-        .btn-rentals:focus {
-            outline: 2px solid var(--accent-cyan);
-            outline-offset: 2px;
-        }
-
-        /* ========== UTILITY ========== */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 1.5rem;
-            }
-        }
+        body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between">
 
-<body>
-    <!-- ========== NAVIGATION ========== -->
-    <nav>
-        <div class="nav-container">
-            <div class="nav-title">Sorto Labs</div>
-            <ul class="nav-links">
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#rentals">Rentals</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- ========== HERO SECTION ========== -->
-    <section class="hero">
-        <div class="tagline">Welcome to</div>
-        <h1>Sorto Labs</h1>
-        <p>
-            A maker's workshop at the intersection of hardware engineering, creative tech, and hands-on problem-solving. 
-            <br> Specializing in 3D manufacturing and portable audio systems.
-        </p>
-    </section>
-
-    <!-- ========== PROJECTS SECTION ========== -->
-    <section class="projects-section" id="projects">
-        <div class="section-header">
-            <h2>Core Projects</h2>
-        </div>
-
-        <div class="projects-grid">
-            <!-- Card 1: 3D Design & Manufacturing -->
-            <div class="project-card">
-                <svg class="card-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <!-- 3D Printer/Manufacturing Icon -->
-                    <defs>
-                        <linearGradient id="grad3d" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#00d9ff;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#00a8cc;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <rect x="15" y="20" width="70" height="60" fill="none" stroke="url(#grad3d)" stroke-width="2" rx="4"/>
-                    <line x1="25" y1="35" x2="75" y2="35" stroke="url(#grad3d)" stroke-width="1.5"/>
-                    <line x1="25" y1="50" x2="75" y2="50" stroke="url(#grad3d)" stroke-width="1.5"/>
-                    <circle cx="50" cy="70" r="8" fill="none" stroke="url(#grad3d)" stroke-width="2"/>
-                    <path d="M 35 75 Q 50 85 65 75" fill="none" stroke="url(#grad3d)" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-                <h3>3D Design & Manufacturing</h3>
-                <p>
-                    FDM 3D printing, functional engineering prints, and digital 3D sculpting. 
-                    From concept to finished prototype—rapid iteration and material solutions.
-                </p>
-                <div class="card-tags">
-                    <span class="tag">FDM Printing</span>
-                    <span class="tag">CAD Design</span>
-                    <span class="tag">Prototyping</span>
+    <!-- Header -->
+    <header class="bg-slate-800 border-b border-slate-700 shadow-lg py-4 px-6 sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-rose-600 p-2 rounded-lg text-white font-bold text-xl shadow">🚑</div>
+                <div>
+                    <h1 class="text-lg font-bold text-white tracking-wide">EMS Field Operations & Safety</h1>
+                    <p class="text-xs text-slate-400">Interactive Training & Certification Practice Quiz</p>
                 </div>
             </div>
-
-            <!-- Card 2: Hardware Audio Studio -->
-            <div class="project-card">
-                <svg class="card-icon amber" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Audio/Synth Icon -->
-                    <defs>
-                        <linearGradient id="gradaudio" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#ff9500;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#ff7a00;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <circle cx="50" cy="45" r="6" fill="url(#gradaudio)"/>
-                    <path d="M 50 51 L 50 70" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M 40 55 Q 35 50 35 45" fill="none" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M 60 55 Q 65 50 65 45" fill="none" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M 35 65 L 25 75" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M 65 65 L 75 75" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
-                    <rect x="20" y="75" width="15" height="8" fill="url(#gradaudio)" rx="2"/>
-                    <rect x="65" y="75" width="15" height="8" fill="url(#gradaudio)" rx="2"/>
-                </svg>
-                <h3>Hardware Audio Studio</h3>
-                <p>
-                    Portable, battery-powered, and offline music setup. Hardware synths, electric guitars, 
-                    MIDI routing, and sequencing—complete sonic independence.
-                </p>
-                <div class="card-tags">
-                    <span class="tag amber">Synths</span>
-                    <span class="tag amber">MIDI</span>
-                    <span class="tag amber">Sequencing</span>
-                </div>
+            <div id="score-badge" class="hidden bg-slate-700 px-4 py-1.5 rounded-full text-sm font-semibold text-emerald-400 border border-slate-600">
+                Score: <span id="current-score">0</span> / <span id="total-questions-score">0</span>
             </div>
-            <div class="project-card">
-                <svg class="card-icon amber" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Audio/Synth Icon -->
-                    <defs>
-                        <linearGradient id="gradaudio" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#ff9500;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#ff7a00;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <circle cx="50" cy="45" r="6" fill="url(#gradaudio)"/>
-                    <path d="M 50 51 L 50 70" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M 40 55 Q 35 50 35 45" fill="none" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M 60 55 Q 65 50 65 45" fill="none" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M 35 65 L 25 75" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M 65 65 L 75 75" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
-                    <rect x="20" y="75" width="15" height="8" fill="url(#gradaudio)" rx="2"/>
-                    <rect x="65" y="75" width="15" height="8" fill="url(#gradaudio)" rx="2"/>
-                </svg>
-                <h3>Sample Text</h3>
-                <p>
-                    Sample Text
-                </p>
-                <div class="card-tags">
-                    <span class="tag amber">Sample Text</span>
-                    <span class="tag amber">Sample Text</span>
-                    <span class="tag amber">Sample Text</span>
-                </div>
-            </div>
-            <div class="project-card">
-                <svg class="card-icon amber" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Audio/Synth Icon -->
-                    <defs>
-                        <linearGradient id="gradaudio" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#ff9500;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#ff7a00;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <circle cx="50" cy="45" r="6" fill="url(#gradaudio)"/>
-                    <path d="M 50 51 L 50 70" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M 40 55 Q 35 50 35 45" fill="none" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M 60 55 Q 65 50 65 45" fill="none" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M 35 65 L 25 75" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M 65 65 L 75 75" stroke="url(#gradaudio)" stroke-width="2" stroke-linecap="round"/>
-                    <rect x="20" y="75" width="15" height="8" fill="url(#gradaudio)" rx="2"/>
-                    <rect x="65" y="75" width="15" height="8" fill="url(#gradaudio)" rx="2"/>
-                </svg>
-                <h3>Sample Text</h3>
-                <p>
-                    Sample Text
-                </p>
-                <div class="card-tags">
-                    <span class="tag amber">Sample Text</span>
-                    <span class="tag amber">Sample Text</span>
-                    <span class="tag amber">Sample Text</span>
-                </div>
-            </div>
-
-            <!-- Card 3: Tabletop & Game Design -->
         </div>
-    </section>
+    </header>
 
-    <!-- ========== CTA SECTION ========== -->
-    <section class="cta-section" id="rentals">
-        <div class="cta-banner">
-            <h2>Property Rentals</h2>
-            <p>
-                Explore our rental listings and property offerings.</p>
-            <a href="./rentals/" class="btn-rentals">View Property Rentals</a>
+    <!-- Main Container -->
+    <main class="max-w-3xl mx-auto px-4 py-8 w-full flex-grow flex flex-col justify-center">
+
+        <!-- Welcome / Chapter Selection Screen -->
+        <div id="setup-screen" class="bg-slate-800 border border-slate-700 rounded-2xl p-6 md:p-8 shadow-xl">
+            <h2 class="text-2xl font-bold text-white mb-3">Select Practice Module</h2>
+            <p class="text-slate-300 text-sm mb-6">Choose a specific chapter from your EMS curriculum or take the comprehensive quiz covering all 4 chapters.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                <button onclick="startQuiz('all')" class="p-4 rounded-xl border border-slate-600 bg-slate-700 hover:bg-slate-600 hover:border-rose-500 transition text-left group cursor-pointer shadow">
+                    <span class="text-xs font-semibold text-rose-400 uppercase tracking-wider block mb-1">Comprehensive</span>
+                    <h3 class="text-lg font-bold text-white group-hover:text-rose-300 transition">All Chapters (40 Questions)</h3>
+                    <p class="text-xs text-slate-400 mt-1">Full exam simulation across all modules.</p>
+                </button>
+                <button onclick="startQuiz(38)" class="p-4 rounded-xl border border-slate-600 bg-slate-700 hover:bg-slate-600 hover:border-blue-500 transition text-left group cursor-pointer shadow">
+                    <span class="text-xs font-semibold text-blue-400 uppercase tracking-wider block mb-1">Chapter 38</span>
+                    <h3 class="text-lg font-bold text-white group-hover:text-blue-300 transition">EMS Operations</h3>
+                    <p class="text-xs text-slate-400 mt-1">Ambulance types, due regard, pre-shift & LZs.</p>
+                </button>
+                <button onclick="startQuiz(39)" class="p-4 rounded-xl border border-slate-600 bg-slate-700 hover:bg-slate-600 hover:border-amber-500 transition text-left group cursor-pointer shadow">
+                    <span class="text-xs font-semibold text-amber-400 uppercase tracking-wider block mb-1">Chapter 39</span>
+                    <h3 class="text-lg font-bold text-white group-hover:text-amber-300 transition">HAZMAT and MCI</h3>
+                    <p class="text-xs text-slate-400 mt-1">Staging, ERG, triage sorting, & decontamination.</p>
+                </button>
+                <button onclick="startQuiz(40)" class="p-4 rounded-xl border border-slate-600 bg-slate-700 hover:bg-slate-600 hover:border-emerald-500 transition text-left group cursor-pointer shadow">
+                    <span class="text-xs font-semibold text-emerald-400 uppercase tracking-wider block mb-1">Chapter 40</span>
+                    <h3 class="text-lg font-bold text-white group-hover:text-emerald-300 transition">Highway Safety</h3>
+                    <p class="text-xs text-slate-400 mt-1">Vehicle positioning, extrication, & scene safety.</p>
+                </button>
+                <button onclick="startQuiz(41)" class="p-4 rounded-xl border border-slate-600 bg-slate-700 hover:bg-slate-600 hover:border-purple-500 transition text-left group cursor-pointer shadow md:col-span-2">
+                    <span class="text-xs font-semibold text-purple-400 uppercase tracking-wider block mb-1">Chapter 41</span>
+                    <h3 class="text-lg font-bold text-white group-hover:text-purple-300 transition">EMS Response to Terrorism</h3>
+                    <p class="text-xs text-slate-400 mt-1">CBRNE, SLUDGEM, toxins, & secondary devices.</p>
+                </button>
+            </div>
         </div>
-    </section>
 
-    <!-- ========== FOOTER ========== -->
-    <footer>
-        <p>© 2026 Sorto Labs. All rights reserved. Built with precision and passion.</p>
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="hidden bg-slate-800 border border-slate-700 rounded-2xl p-6 md:p-8 shadow-xl">
+            <!-- Progress Bar -->
+            <div class="flex justify-between items-center mb-4 text-xs font-medium text-slate-400">
+                <span id="question-progress-label">Question 1 of 10</span>
+                <span id="chapter-tag" class="px-2.5 py-0.5 rounded-full bg-slate-700 text-rose-400 border border-slate-600">Chapter</span>
+            </div>
+            <div class="w-full bg-slate-700 h-2 rounded-full mb-6 overflow-hidden">
+                <div id="progress-bar" class="bg-rose-600 h-2 rounded-full transition-all duration-300" style="width: 10%"></div>
+            </div>
+
+            <!-- Question Text -->
+            <h2 id="question-text" class="text-lg md:text-xl font-semibold text-white mb-6 leading-relaxed"></h2>
+
+            <!-- Options Container -->
+            <div id="options-container" class="space-y-3 mb-6"></div>
+
+            <!-- Rationale / Explanation Box -->
+            <div id="explanation-box" class="hidden mb-6 p-4 rounded-xl bg-slate-900 border border-slate-700 text-sm">
+                <h4 id="explanation-title" class="font-bold mb-1 flex items-center"></h4>
+                <p id="explanation-text" class="text-slate-300 leading-relaxed"></p>
+            </div>
+
+            <!-- Action Footer -->
+            <div class="flex justify-between items-center pt-4 border-t border-slate-700">
+                <button onclick="quitQuiz()" class="text-xs text-slate-400 hover:text-white transition">Exit Quiz</button>
+                <button id="next-btn" onclick="nextQuestion()" class="hidden bg-rose-600 hover:bg-rose-500 text-white px-6 py-2.5 rounded-xl font-semibold text-sm transition shadow">Next Question →</button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="hidden bg-slate-800 border border-slate-700 rounded-2xl p-6 md:p-8 shadow-xl text-center">
+            <div class="w-16 h-16 bg-rose-600/20 border border-rose-500 text-rose-500 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">🏆</div>
+            <h2 class="text-2xl font-bold text-white mb-2">Quiz Completed!</h2>
+            <p class="text-slate-400 text-sm mb-6">Here is how you performed on this module.</p>
+            
+            <div class="bg-slate-900 border border-slate-700 rounded-xl p-6 max-w-xs mx-auto mb-8">
+                <div class="text-4xl font-extrabold text-white mb-1"><span id="final-score">0</span> / <span id="final-total">0</span></div>
+                <div id="score-percentage" class="text-sm font-semibold text-emerald-400">0% Correct</div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-3">
+                <button onclick="restartQuiz()" class="bg-rose-600 hover:bg-rose-500 text-white px-6 py-3 rounded-xl font-semibold text-sm transition shadow">Try Again</button>
+                <button onclick="quitQuiz()" class="bg-slate-700 hover:bg-slate-600 text-slate-200 px-6 py-3 rounded-xl font-semibold text-sm transition border border-slate-600">Back to Modules</button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 border-t border-slate-700 py-4 px-6 text-center text-xs text-slate-500">
+        EMS Operations & Safety Quiz • Based on EMS Field Training Curriculum
     </footer>
 
-</body>
+    <!-- Quiz Dataset Script -->
+    <script>
+        const quizData = {
+            38: {
+                title: "Chapter 38: EMS Operations",
+                questions: [
+                    {
+                        question: "Which of the following should be done on a pre-shift inspection of your ambulance?",
+                        options: [
+                            { text: "Check all emergency lights, tire tread depth, vehicle damage, fluid levels, and medical equipment at par.", isCorrect: true, rationale: "A thorough pre-shift inspection ensures all emergency systems, vehicle mechanical integrity, and medical supplies are fully operational." },
+                            { text: "Only check fuel levels and stretcher operation.", isCorrect: false, rationale: "Pre-shift checks must be comprehensive, covering safety, mechanical, and medical equipment readiness." },
+                            { text: "Wait until a call comes in to inspect medical equipment.", isCorrect: false, rationale: "Waiting for a call to check equipment can lead to critical delays and safety hazards on scene." },
+                            { text: "Perform a complete engine teardown and fluid flush daily.", isCorrect: false, rationale: "Daily engine teardowns are unnecessary; routine fluid checks and preventative maintenance schedules are used instead." }
+                        ]
+                    },
+                    {
+                        question: "Which of the following levels are responsible for establishing the location of the caller?",
+                        options: [
+                            { text: "EMD (Emergency Medical Dispatcher)", isCorrect: true, rationale: "The EMD is specially trained to gather caller location, callback number, and chief complaint while dispatching resources." },
+                            { text: "EMT", isCorrect: false, rationale: "EMT crews receive dispatch information en route or on scene but do not initially process the 911 call location." },
+                            { text: "AEMT", isCorrect: false, rationale: "Advanced EMTs operate in the field providing patient care rather than emergency dispatch intake." },
+                            { text: "Paramedic", isCorrect: false, rationale: "Paramedics provide advanced prehospital clinical care; dispatching and location gathering are handled by EMDs." }
+                        ]
+                    },
+                    {
+                        question: "Which of the following terms refers to the responsibility the EMT has to traffic laws and emergent exceptions while driving the ambulance?",
+                        options: [
+                            { text: "Due regard", isCorrect: true, rationale: "Due regard requires ambulance operators to drive with a reasonable standard of care to ensure the safety of other motorists and pedestrians." },
+                            { text: "In loco parentis", isCorrect: false, rationale: "In loco parentis refers to acting in place of a parent, often applied to school personnel or pediatric consent." },
+                            { text: "Standing orders", isCorrect: false, rationale: "Standing orders are medical protocols authorized by the medical director for patient care procedures." },
+                            { text: "DOT compliance model", isCorrect: false, rationale: "The DOT compliance model refers to federal vehicle manufacturing and safety standards." }
+                        ]
+                    },
+                    {
+                        question: "Escort vehicles are recommended on every EMS call when possible to reduce the risk of accidents.",
+                        options: [
+                            { text: "False", isCorrect: true, rationale: "Escort vehicles are generally discouraged and rarely recommended because they significantly increase intersection collision risks." },
+                            { text: "True", isCorrect: false, rationale: "Using escort vehicles increases multi-vehicle hazards at intersections and is not standard recommendation." }
+                        ]
+                    },
+                    {
+                        question: "Which reference is recommended for every basic life support ambulance?",
+                        options: [
+                            { text: "Emergency Response Guidebook (ERG)", isCorrect: true, rationale: "The ERG provides crucial guidance for handling hazardous materials incidents and is recommended for all emergency vehicles." },
+                            { text: "Scope of Practice Model", isCorrect: false, rationale: "While important for licensure, the Scope of Practice is a regulatory document rather than a field hazardous materials guide." },
+                            { text: "International Response Guide", isCorrect: false, rationale: "This is a distractor; the standard field reference is the DOT Emergency Response Guidebook." },
+                            { text: "National Operational Field Guide", isCorrect: false, rationale: "While operational guides exist, the ERG is the specific standard reference for hazardous materials identification." }
+                        ]
+                    },
+                    {
+                        question: "The first emergency vehicle on the scene at a car wreck should park in a way that:",
+                        options: [
+                            { text: "Blocks the wreck scene to protect patients and rescuers from oncoming traffic.", isCorrect: true, rationale: "Protecting the workspace by blocking traffic is a primary highway safety principle." },
+                            { text: "Parks as close as possible to the patient vehicle regardless of traffic flow.", isCorrect: false, rationale: "Parking too close without protective blocking exposes crew and patients to secondary collisions." },
+                            { text: "Parks off the road and leaves the highway completely open.", isCorrect: false, rationale: "Emergency vehicles must establish protective blocking to shield the incident workspace." },
+                            { text: "Parks behind the wreck facing away from oncoming traffic.", isCorrect: false, rationale: "Vehicles should be positioned to protect the scene from approaching traffic upstream." }
+                        ]
+                    },
+                    {
+                        question: "What is the minimum size for a standard helicopter landing zone (LZ)?",
+                        options: [
+                            { text: "$100' \\times 100'$", isCorrect: true, rationale: "A standard daytime helicopter landing zone requires a clear area of at least 100 feet by 100 feet (larger at night or on slopes)." },
+                            { text: "$25' \\times 25'$", isCorrect: false, rationale: "A 25-foot area is far too small and creates severe rotor-wash and obstacle collision hazards." },
+                            { text: "$50' \\times 50'$", isCorrect: false, rationale: "A 50-foot area is inadequate for safe rotorcraft clearance." },
+                            { text: "There is no minimum standard", isCorrect: false, rationale: "Strict federal and aviation safety guidelines mandate specific landing zone dimensions." }
+                        ]
+                    },
+                    {
+                        question: "Which actions are appropriate for EMS personnel responsible for preparing a landing zone? (Select all that apply)",
+                        options: [
+                            { text: "Keep unauthorized people away, remove loose debris, and inspect for overhead hazards.", isCorrect: true, rationale: "LZ preparation requires clearing bystanders, securing loose objects that could become projectiles, and identifying wires/poles." },
+                            { text: "Stand directly near the helicopter to guide it down manually.", isCorrect: false, rationale: "Personnel should never approach or stand close to landing aircraft unless signaled by flight crew." },
+                            { text: "Shine high-intensity spotlights directly at the cockpit during final descent.", isCorrect: false, rationale: "Shining lights into the cockpit blinds pilots during night landings; use perimeter markers instead." },
+                            { text: "Leave debris and loose equipment scattered around the zone.", isCorrect: false, rationale: "Debris can be sucked into turbine engines, causing catastrophic engine failure." }
+                        ]
+                    },
+                    {
+                        question: "Ambulance design types are categorized into classifications. Which type features a modular ambulance body mounted on a cutaway van chassis?",
+                        options: [
+                            { text: "Type III", isCorrect: true, rationale: "A Type III ambulance features a custom module mounted on an integral van chassis with a walk-through cab." },
+                            { text: "Type I", isCorrect: false, rationale: "Type I ambulances feature a modular body mounted on a truck-style chassis." },
+                            { text: "Type II", isCorrect: false, rationale: "Type II ambulances are standard van-type vehicles with raised roofs." },
+                            { text: "Medium Duty", isCorrect: false, rationale: "Medium duty vehicles utilize heavy commercial truck chassis." }
+                        ]
+                    },
+                    {
+                        question: "Ambulance design types: Which type features a traditional truck chassis with a separate modular box?",
+                        options: [
+                            { text: "Type I", isCorrect: true, rationale: "Type I uses a truck chassis (e.g., Ford F-Series/Chevrolet Silverado) with a modular box." },
+                            { text: "Type II", isCorrect: false, rationale: "Type II is a standard van conversion." },
+                            { text: "Type III", isCorrect: false, rationale: "Type III uses a van cutaway chassis." },
+                            { text: "Type IV", isCorrect: false, rationale: "Type IV is not a standard ambulance classification." }
+                        ]
+                    }
+                ]
+            },
+            39: {
+                title: "Chapter 39: HAZMAT and MCI",
+                questions: [
+                    {
+                        question: "Where would be the most appropriate place to stage on a possible HAZMAT incident?",
+                        options: [
+                            { text: "Uphill, upwind, upstream", isCorrect: true, rationale: "Staging uphill, upwind, and upstream prevents hazardous vapors, liquids, and runoff from reaching responders." },
+                            { text: "Uphill, downwind, upstream", isCorrect: false, rationale: "Being downwind puts responders directly in the path of airborne toxic plumes." },
+                            { text: "Downhill, downwind, downstream", isCorrect: false, rationale: "This position places personnel in maximum danger from vapors, spills, and runoff." },
+                            { text: "Downwind, uphill, upstream", isCorrect: false, rationale: "Being downwind exposes personnel to airborne chemical hazards." }
+                        ]
+                    },
+                    {
+                        question: "The first and primary concern of the EMT at a hazardous materials incident is:",
+                        options: [
+                            { text: "Personal safety", isCorrect: true, rationale: "Rescuer safety is always paramount; an injured rescuer creates another patient and diminishes response capability." },
+                            { text: "Patient's medical needs", isCorrect: false, rationale: "Patient care cannot begin in a contaminated hot zone until scene safety and decontamination are established." },
+                            { text: "Safety of the public", isCorrect: false, rationale: "While public safety is critical, responders must protect themselves first to effectively manage the scene." },
+                            { text: "Safety of the crew's equipment", isCorrect: false, rationale: "Equipment can be replaced; personnel safety is the absolute priority." }
+                        ]
+                    },
+                    {
+                        question: "While on the scene of a chemical spill, a facility may have this text to make responders aware of the various chemicals on site:",
+                        options: [
+                            { text: "Safety Data Sheet (SDS)", isCorrect: true, rationale: "SDS documents provide detailed hazard evaluations, chemical properties, and emergency handling procedures." },
+                            { text: "Chemical Database", isCorrect: false, rationale: "While databases exist, the mandatory facility reference document is the Safety Data Sheet." },
+                            { text: "Chemtrec Number", isCorrect: false, rationale: "CHEMTREC is a 24-hour emergency call center, not the on-site document." },
+                            { text: "Emergency Response Guidebook", isCorrect: false, rationale: "The ERG is carried on vehicles, whereas facility-specific inventories are found in SDS sheets." }
+                        ]
+                    },
+                    {
+                        question: "Which colored section of the Emergency Response Guidebook would you consult if you had a chemical's UN/NA 4-digit number?",
+                        options: [
+                            { text: "Yellow or Orange sections", isCorrect: true, rationale: "The yellow section lists materials numerically by UN number, and the orange section provides guide pages." },
+                            { text: "Green section", isCorrect: false, rationale: "The green section covers initial isolation and protective action distances for toxic-by-inhalation materials." },
+                            { text: "Blue section", isCorrect: false, rationale: "The blue section lists hazardous materials alphabetically by name." },
+                            { text: "White section", isCorrect: false, rationale: "There is no primary white section for UN numbers in the standard ERG." }
+                        ]
+                    },
+                    {
+                        question: "At a Mass Casualty Incident (MCI), the area from which all vehicles should be called to wait for a patient transport assignment is the:",
+                        options: [
+                            { text: "Staging area", isCorrect: true, rationale: "The staging area keeps emergency vehicles organized and prevents congestion at the immediate triage/treatment sector." },
+                            { text: "Transportation area", isCorrect: false, rationale: "The transportation area manages ambulance loading and departure to hospitals, not vehicle waiting." },
+                            { text: "Supply area", isCorrect: false, rationale: "The supply area distributes medical equipment and backboards." },
+                            { text: "Extrication area", isCorrect: false, rationale: "The extrication sector handles disentanglement of trapped patients." }
+                        ]
+                    },
+                    {
+                        question: "You arrive on scene to a mass casualty event. Due to safety concerns, you ask a group of walking victims to move to a clear space. What is their initial triage priority?",
+                        options: [
+                            { text: "Priority 3 (Green / Minor)", isCorrect: true, rationale: "Patients who can walk and follow commands are classified as Green (delayed/minor)." },
+                            { text: "Priority 1 (Red / Immediate)", isCorrect: false, rationale: "Red tags are reserved for patients with life-threatening airway, breathing, or circulatory compromise." },
+                            { text: "Priority 2 (Yellow / Delayed)", isCorrect: false, rationale: "Yellow tags are for patients requiring treatment whose transport can be delayed." },
+                            { text: "Priority 4 (Black / Expectant)", isCorrect: false, rationale: "Black tags are for deceased or unsalvageable patients." }
+                        ]
+                    },
+                    {
+                        question: "During an MCI, as much communication as possible between Command and Command's direct subordinates should be:",
+                        options: [
+                            { text: "face-to-face", isCorrect: true, rationale: "Face-to-face communication reduces radio frequency congestion and ensures clear, unambiguous orders." },
+                            { text: "through portable radios", isCorrect: false, rationale: "Radios should be reserved when face-to-face is impossible due to distance or safety." },
+                            { text: "via cell phones", isCorrect: false, rationale: "Cell phone networks can easily fail or overload during large-scale emergency incidents." },
+                            { text: "through the EMD", isCorrect: false, rationale: "Dispatchers coordinate outside the incident command structure once units are on scene." }
+                        ]
+                    },
+                    {
+                        question: "You are triaging patients from a bus wreck when you come across a toddler who is unresponsive and apneic. After opening the airway, the child resumes spontaneous breathing. How should you proceed?",
+                        options: [
+                            { text: "Prioritize the patient as Priority 1 (Red Tag)", isCorrect: true, rationale: "Under JumpSTART pediatric triage, an apneic child who resumes breathing after airway opening is immediately tagged Red." },
+                            { text: "Tag the child Priority 4 (Black Tag)", isCorrect: false, rationale: "Black tagging apneic children only applies if they remain apneic after simple airway opening maneuvers." },
+                            { text: "Tag the child Priority 3 (Green)", isCorrect: false, rationale: "Respiratory compromise requiring airway positioning is a critical life-threatening condition (Red)." },
+                            { text: "Begin full cardiopulmonary resuscitation immediately.", isCorrect: false, rationale: "In MCI triage, resources are conserved; full CPR is generally not initiated on pediatric arrests due to low survival rates in mass casualty settings." }
+                        ]
+                    },
+                    {
+                        question: "Where does gross decontamination occur during a HAZMAT incident?",
+                        options: [
+                            { text: "Warm zone", isCorrect: true, rationale: "The warm zone (reduction corridor) is where decontamination showers and equipment removal take place." },
+                            { text: "Hot zone", isCorrect: false, rationale: "The hot zone is the area of maximum contamination where rescue and containment occur." },
+                            { text: "Cold zone", isCorrect: false, rationale: "The cold zone is clean and houses command, staging, and treatment." },
+                            { text: "At the hospital emergency department", isCorrect: false, rationale: "Decontamination must occur in the field before patients enter hospitals to prevent contaminating medical facilities." }
+                        ]
+                    },
+                    {
+                        question: "What does a NFPA 704 diamond placard with a red quadrant indicate?",
+                        options: [
+                            { text: "Flammability hazard", isCorrect: true, rationale: "In the NFPA 704 system, blue is health, red is flammability, yellow is instability, and white is special hazards." },
+                            { text: "Health hazard", isCorrect: false, rationale: "Health hazards are denoted by the blue quadrant on the left." },
+                            { text: "Instability / reactivity", isCorrect: false, rationale: "Instability is denoted by the yellow quadrant on the right." },
+                            { text: "Radioactive hazard", isCorrect: false, rationale: "Special hazards like radioactivity or water reactivity are located in the white quadrant at the bottom." }
+                        ]
+                    }
+                ]
+            },
+            40: {
+                title: "Chapter 40: Highway Safety",
+                questions: [
+                    {
+                        question: "How far should you park from a highway incident scene to ensure safety?",
+                        options: [
+                            { text: "100 feet behind (upstream) to protect the workspace", isCorrect: true, rationale: "Parking approximately 100 feet upstream with wheels turned away provides a safety buffer against oncoming traffic collisions." },
+                            { text: "25 feet in all directions", isCorrect: false, rationale: "25 feet is far too close and exposes the crew to being struck by passing vehicles." },
+                            { text: "Directly bumper-to-bumper with the wrecked vehicle", isCorrect: false, rationale: "Parking too close eliminates the protective cushion zone." },
+                            { text: "500 feet downstream", isCorrect: false, rationale: "Parking downstream leaves the working zone completely unprotected from upstream traffic." }
+                        ]
+                    },
+                    {
+                        question: "The high-visibility chevron wrapping and paint scheme on the rear of an ambulance acts as what type of warning?",
+                        options: [
+                            { text: "Passive warning", isCorrect: true, rationale: "Passive warnings (reflective markings and chevrons) work continuously without operator activation, even if power fails." },
+                            { text: "Active warning", isCorrect: false, rationale: "Active warnings require power and operator activation, such as flashing lights and sirens." },
+                            { text: "Directional warning", isCorrect: false, rationale: "Directional light bars indicate flow direction, whereas chevrons are passive visual safety graphics." },
+                            { text: "Auditory warning", isCorrect: false, rationale: "Auditory warnings involve sirens and air horns." }
+                        ]
+                    },
+                    {
+                        question: "What is the very first phase of vehicle extrication?",
+                        options: [
+                            { text: "Preparation and hazard recognition", isCorrect: true, rationale: "Preparation, planning, and continuous hazard recognition begin before physical disentanglement takes place." },
+                            { text: "Gaining patient access", isCorrect: false, rationale: "Accessing the patient occurs after scene stabilization and hazard control." },
+                            { text: "Stabilizing the vehicle", isCorrect: false, rationale: "Vehicle stabilization occurs early, but preparation and scene safety assessment precede it." },
+                            { text: "Displacing the roof", isCorrect: false, rationale: "Roof displacement is a later mechanical disentanglement tactic." }
+                        ]
+                    },
+                    {
+                        question: "At what angle should you position the blocking ambulance during operations on a street or highway?",
+                        options: [
+                            { text: "45 degrees angled away from the work zone", isCorrect: true, rationale: "Angling the ambulance 45 degrees deflects impacts away from the work area if struck by oncoming traffic." },
+                            { text: "5 degrees parallel to traffic", isCorrect: false, rationale: "A 5-degree angle does not provide adequate physical deflection if a vehicle rear-ends the ambulance." },
+                            { text: "90 degrees blocking all lanes completely", isCorrect: false, rationale: "While complete blockage is sometimes used, a 45-degree angle is the standard protective staging orientation." },
+                            { text: "15 degrees facing oncoming traffic", isCorrect: false, rationale: "Facing traffic head-on creates severe confusion and hazard risks." }
+                        ]
+                    },
+                    {
+                        question: "When there is a primary fire apparatus or heavy rescue truck blocking the scene, where should the ambulance park?",
+                        options: [
+                            { text: "Downstream (protected area of the scene)", isCorrect: true, rationale: "The heavier fire apparatus takes the brunt of upstream traffic protection, allowing the ambulance to park downstream for safe patient loading." },
+                            { text: "Upstream in front of the fire truck", isCorrect: false, rationale: "Parking upstream exposes the ambulance to direct vehicle impacts." },
+                            { text: "Directly in the center of oncoming traffic", isCorrect: false, rationale: "Emergency vehicles must be positioned to shield workers, not obstruct traffic flow unnecessarily." },
+                            { text: "Off the highway entirely in a ditch", isCorrect: false, rationale: "Ambulances must remain accessible for patient transport in the downstream safe zone." }
+                        ]
+                    },
+                    {
+                        question: "At what position would you place the front wheels of the ambulance when arriving at the scene of an accident?",
+                        options: [
+                            { text: "Pointed hard away from the work zone (towards the curb/shoulder)", isCorrect: true, rationale: "Turning front wheels away ensures that if the ambulance is rear-ended, it rolls away from the accident victims and rescuers rather than into them." },
+                            { text: "Pointed straight ahead", isCorrect: false, rationale: "Straight wheels allow a rear-end impact to drive the ambulance directly into the rescue workspace." },
+                            { text: "Pointed toward the center of the wreck", isCorrect: false, rationale: "Pointing wheels toward the wreck would drive the vehicle directly into patients if struck." },
+                            { text: "Locked in a 90-degree lateral skid", isCorrect: false, rationale: "Wheels should be turned normally toward the curb/shoulder, not locked in skids." }
+                        ]
+                    },
+                    {
+                        question: "Are ANSI-approved high-visibility safety vests required on highway operations for EMS personnel?",
+                        options: [
+                            { text: "Yes, ANSI-approved vests are mandatory for all personnel operating on roadways.", isCorrect: true, rationale: "Federal regulations (ANSI/ISEA) require high-visibility apparel for all emergency workers exposed to traffic hazards." },
+                            { text: "False, they are never required if it is daylight.", isCorrect: false, rationale: "High-visibility vests are required during both day and night highway operations." },
+                            { text: "False, only police officers need safety vests.", isCorrect: false, rationale: "All emergency responders, including EMS and firefighters, must wear high-visibility vests on roadways." },
+                            { text: "True only when transporting critical patients.", isCorrect: false, rationale: "Safety vest requirements remain mandatory regardless of patient acuity." }
+                        ]
+                    },
+                    {
+                        question: "Determining the total number of patients on the scene of a motor vehicle collision (MVC) is performed during which phase?",
+                        options: [
+                            { text: "Scene size-up", isCorrect: true, rationale: "Scene size-up includes evaluating mechanism of injury, hazards, and total patient count to request additional resources." },
+                            { text: "Primary assessment", isCorrect: false, rationale: "Primary assessment focuses on identifying and managing immediate life threats for individual patients." },
+                            { text: "Secondary assessment", isCorrect: false, rationale: "Secondary assessment involves detailed physical exams of specific patients." },
+                            { text: "Initial assessment", isCorrect: false, rationale: "Initial assessment is synonymous with primary patient evaluation." }
+                        ]
+                    },
+                    {
+                        question: "Which of the following driving practices is generally permitted for authorized emergency vehicles responding with lights and sirens?",
+                        options: [
+                            { text: "Exceeding the posted speed limit with due regard for safety", isCorrect: true, rationale: "Emergency vehicle operators are granted exemptions (speed, running red lights after stopping) provided they exercise due regard." },
+                            { text: "Passing a school bus with its red flashing lights activated", isCorrect: false, rationale: "Passing a school bus with flashing red lights is strictly illegal under all circumstances to protect children." },
+                            { text: "Driving through active school zones without slowing down", isCorrect: false, rationale: "Extra caution and reduced speeds are mandatory in school zones regardless of emergency status." },
+                            { text: "Using sirens to deliberately startle pedestrians out of the roadway", isCorrect: false, rationale: "Sirens are warning devices for right-of-way, not tools to startle people." }
+                        ]
+                    },
+                    {
+                        question: "When approaching a highway collision at night, what lighting precautions should be taken?",
+                        options: [
+                            { text: "Turn off unnecessary forward-facing dazzling lights (like high beams/spotlights) that blind oncoming motorists.", isCorrect: true, rationale: "Unnecessary bright white lights blind approaching drivers, causing secondary collisions." },
+                            { text: "Leave all high-beam headlights and spotlights blazing brightly.", isCorrect: false, rationale: "Blinding oncoming motorists increases the risk of them crashing into the scene." },
+                            { text: "Turn off all emergency strobe lights entirely.", isCorrect: false, rationale: "Emergency warning lights must remain on to alert approaching traffic." },
+                            { text: "Turn off all vehicle engines and interior dashboard lights.", isCorrect: false, rationale: "Vehicle power is needed for scene lighting and warning strobes." }
+                        ]
+                    }
+                ]
+            },
+            41: {
+                title: "Chapter 41: EMS Response to Terrorism",
+                questions: [
+                    {
+                        question: "What does the 'B' stand for in the mnemonic CBRNE when determining the agent used during a terrorist event?",
+                        options: [
+                            { text: "Biologic", isCorrect: true, rationale: "CBRNE stands for Chemical, Biological, Radiological, Nuclear, and Explosive." },
+                            { text: "Burning", isCorrect: false, rationale: "Burning is not part of the CBRNE acronym." },
+                            { text: "Biblical", isCorrect: false, rationale: "Biblical is incorrect; 'B' represents biological agents such as anthrax or ricin." },
+                            { text: "Blast", isCorrect: false, rationale: "Blast is represented by the 'E' (Explosive) in CBRNE." }
+                        ]
+                    },
+                    {
+                        question: "Primary explosive devices are often used to harm civilians, while secondary devices frequently target:",
+                        options: [
+                            { text: "First responders", isCorrect: true, rationale: "Secondary devices are intentionally timed or placed to inflict casualties among arriving police, fire, and EMS personnel." },
+                            { text: "Civilians", isCorrect: false, rationale: "Primary devices target general civilian populations, whereas secondary devices target responding emergency workers." },
+                            { text: "The wounded", isCorrect: false, rationale: "While wounded are present, secondary devices specifically target emergency responders." },
+                            { text: "Military personnel", isCorrect: false, rationale: "Terrorist attacks utilizing secondary devices in civilian incidents specifically target civilian first responders." }
+                        ]
+                    },
+                    {
+                        question: "Which mnemonic should be utilized when determining whether an area is or may be the target of a terrorist threat based on occupancy and timing?",
+                        options: [
+                            { text: "OTTO (Occupancy, Timing, Type, On-scene)", isCorrect: true, rationale: "OTTO helps responders recognize terrorist indicators through Occupancy types, Timing of events, Type of event, and On-scene clues." },
+                            { text: "MCI", isCorrect: false, rationale: "MCI refers to Mass Casualty Incident management, not pre-incident threat recognition." },
+                            { text: "TRACEM-P", isCorrect: false, rationale: "TRACEM-P outlines mechanisms of injury for hazardous materials (Thermal, Radiological, Asphyxiation, Chemical, Etiological, Mechanical, Psychological)." },
+                            { text: "CBRNE", isCorrect: false, rationale: "CBRNE categorizes agent types, whereas OTTO evaluates threat clues." }
+                        ]
+                    },
+                    {
+                        question: "Which of the following will assist first responders in reducing the risk of injury during a terrorist incident?",
+                        options: [
+                            { text: "All of the following (Keeping safe distance, utilizing shielding, limiting time)", isCorrect: true, rationale: "Time, distance, and shielding are the three fundamental radiation and hazardous exposure protection principles." },
+                            { text: "Keeping a safe distance", isCorrect: false, rationale: "While correct, distance is only one of three essential protective principles." },
+                            { text: "Utilizing appropriate shielding", isCorrect: false, rationale: "Shielding is vital but must be combined with distance and time limitation." },
+                            { text: "Limiting time spent in the affected area", isCorrect: false, rationale: "Minimizing exposure duration is crucial for reducing total toxic or radiological dose." }
+                        ]
+                    },
+                    {
+                        question: "What does the term 'miosis' mean in the acronym SLUDGEM (nerve agent signs)?",
+                        options: [
+                            { text: "Constricted pupils", isCorrect: true, rationale: "Miosis is extreme pupillary constriction, a classic hallmark sign of nerve agent exposure." },
+                            { text: "Crying (lacrimation)", isCorrect: false, rationale: "Crying or tearing is represented by the 'L' in SLUDGEM." },
+                            { text: "Sweating (diaphoresis)", isCorrect: false, rationale: "Sweating is represented by the 'S' for salivation/sweating." },
+                            { text: "Excessive salivation", isCorrect: false, rationale: "Salivation is the initial 'S' in SLUDGEM." }
+                        ]
+                    },
+                    {
+                        question: "Vesicating agents (blister agents) are chemical weapons that primarily cause:",
+                        options: [
+                            { text: "Severe damage to skin and tissues (blistering)", isCorrect: true, rationale: "Vesicants like sulfur mustard cause severe skin burns, blistering, and respiratory tissue damage." },
+                            { text: "Nervous system paralysis", isCorrect: false, rationale: "Nervous system paralysis is caused by nerve agents (e.g., VX, sarin), not vesicants." },
+                            { text: "Cellular oxygen deprivation", isCorrect: false, rationale: "Oxygen deprivation is caused by blood agents like cyanide." },
+                            { text: "Rapid biological reproduction", isCorrect: false, rationale: "Biological reproduction is characteristic of living pathogens like anthrax." }
+                        ]
+                    },
+                    {
+                        question: "The most effective and common means of disseminating a biological agent used for terrorism is through which body system?",
+                        options: [
+                            { text: "Respiratory system (inhalation)", isCorrect: true, rationale: "Inhalation of aerosolized biological spores or toxins is the most lethal and easily disseminated route." },
+                            { text: "Integumentary system (skin absorption)", isCorrect: false, rationale: "Intact skin acts as a strong barrier against most biological pathogens." },
+                            { text: "Digestive system (ingestion)", isCorrect: false, rationale: "Ingestion is less efficiently disseminated than airborne aerosolization in large attacks." },
+                            { text: "Circulatory system (direct injection)", isCorrect: false, rationale: "Direct injection requires individual contact and is not a mass dissemination method." }
+                        ]
+                    },
+                    {
+                        question: "Terrorism involving groups or individuals whose activities are directed against their own government without foreign direction is called:",
+                        options: [
+                            { text: "Domestic terrorism", isCorrect: true, rationale: "Domestic terrorism involves groups or individuals based and operating entirely within the United States without foreign direction." },
+                            { text: "International terrorism", isCorrect: false, rationale: "International terrorism involves violent acts inspired or directed by foreign groups or states." },
+                            { text: "Federal terrorism", isCorrect: false, rationale: "Federal terrorism is not a standard legal classification." },
+                            { text: "Territorial terrorism", isCorrect: false, rationale: "Territorial terrorism is a distractor term." }
+                        ]
+                    },
+                    {
+                        question: "Which of the following is a potent biological toxin harvested from castor beans?",
+                        options: [
+                            { text: "Ricin", isCorrect: true, rationale: "Ricin is a deadly toxin derived from the mash left over from processing castor beans." },
+                            { text: "Smallpox", isCorrect: false, rationale: "Smallpox is a contagious viral pathogen, not a plant toxin." },
+                            { text: "Anthrax", isCorrect: false, rationale: "Anthrax is a bacterium (Bacillus anthracis), not a plant-derived toxin." },
+                            { text: "Tularemia", isCorrect: false, rationale: "Tularemia is caused by the bacterium Francisella tularensis." }
+                        ]
+                    },
+                    {
+                        question: "What is the most effective pre-exposure defense against biological agents such as Anthrax or Smallpox?",
+                        options: [
+                            { text: "Immunizations / vaccinations", isCorrect: true, rationale: "Pre-exposure vaccinations provide active immunity against specific biological threats before exposure occurs." },
+                            { text: "Hazmat suits alone", isCorrect: false, rationale: "Hazmat suits are personal protective equipment for response, not a biological immunization." },
+                            { text: "Mark 1 nerve agent antidote kits", isCorrect: false, rationale: "Mark 1 kits contain atropine and pralidoxime, which are antidotes for nerve agents, not biological agents." },
+                            { text: "Lead-based heavy clothing", isCorrect: false, rationale: "Lead shielding protects against radiation, not biological pathogens." }
+                        ]
+                    }
+                ]
+            }
+        };
 
+        let currentQuestions = [];
+        let currentIndex = 0;
+        let score = 0;
+        let selectedChapter = null;
+
+        function startQuiz(chapterKey) {
+            selectedChapter = chapterKey;
+            score = 0;
+            currentIndex = 0;
+
+            if (chapterKey === 'all') {
+                currentQuestions = [];
+                Object.keys(quizData).forEach(ch => {
+                    currentQuestions = currentQuestions.concat(quizData[ch].questions);
+                });
+                // Shuffle questions for comprehensive mode
+                currentQuestions.sort(() => Math.random() - 0.5);
+            } else {
+                currentQuestions = [...quizData[chapterKey].questions];
+            }
+
+            document.getElementById('setup-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            document.getElementById('results-screen').classList.add('hidden');
+            document.getElementById('score-badge').classList.remove('hidden');
+
+            document.getElementById('total-questions-score').textContent = currentQuestions.length;
+            document.getElementById('current-score').textContent = score;
+
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = currentQuestions[currentIndex];
+            const total = currentQuestions.length;
+
+            document.getElementById('question-progress-label').textContent = `Question ${currentIndex + 1} of ${total}`;
+            document.getElementById('chapter-tag').textContent = selectedChapter === 'all' ? 'Comprehensive Exam' : `Chapter ${selectedChapter}`;
+            document.getElementById('progress-bar').style.width = `${((currentIndex + 1) / total) * 100}%`;
+            document.getElementById('question-text').textContent = q.question;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            // Hide explanation box and next button initially
+            document.getElementById('explanation-box').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+
+            // Shuffle options for each question
+            let shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+
+            shuffledOptions.forEach((opt) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border border-slate-700 bg-slate-700/50 hover:bg-slate-700 hover:border-slate-500 transition text-sm font-medium text-slate-200 flex items-start justify-between group cursor-pointer shadow-sm";
+                btn.innerHTML = `<span>${opt.text}</span>`;
+                btn.onclick = () => selectOption(btn, opt, q);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectOption(selectedBtn, chosenOpt, questionObj) {
+            // Disable all option buttons
+            const allBtns = document.getElementById('options-container').querySelectorAll('button');
+            allBtns.forEach(b => {
+                b.disabled = true;
+                b.classList.remove('hover:bg-slate-700', 'hover:border-slate-500');
+                b.style.cursor = 'default';
+            });
+
+            const isCorrect = chosenOpt.isCorrect;
+            if (isCorrect) {
+                score++;
+                document.getElementById('current-score').textContent = score;
+                selectedBtn.className = "w-full text-left p-4 rounded-xl border border-emerald-500 bg-emerald-950/40 text-emerald-200 text-sm font-medium flex items-center justify-between shadow";
+                selectedBtn.innerHTML += `<span class="text-emerald-400 font-bold ml-2">✓ Correct</span>`;
+            } else {
+                selectedBtn.className = "w-full text-left p-4 rounded-xl border border-rose-500 bg-rose-950/40 text-rose-200 text-sm font-medium flex items-center justify-between shadow";
+                selectedBtn.innerHTML += `<span class="text-rose-400 font-bold ml-2">✗ Incorrect</span>`;
+
+                // Highlight correct option
+                allBtns.forEach(b => {
+                    if (b.textContent.includes(questionObj.options.find(o => o.isCorrect).text)) {
+                        b.className = "w-full text-left p-4 rounded-xl border border-emerald-500/60 bg-emerald-950/20 text-emerald-300 text-sm font-medium flex items-center justify-between shadow";
+                    }
+                });
+            }
+
+            // Show explanation
+            const expBox = document.getElementById('explanation-box');
+            const expTitle = document.getElementById('explanation-title');
+            const expText = document.getElementById('explanation-text');
+
+            expBox.classList.remove('hidden');
+            if (isCorrect) {
+                expBox.className = "mb-6 p-4 rounded-xl bg-emerald-950/30 border border-emerald-600/50 text-sm";
+                expTitle.className = "font-bold mb-1 flex items-center text-emerald-400";
+                expTitle.innerHTML = "<span>💡 Correct Rationale</span>";
+            } else {
+                expBox.className = "mb-6 p-4 rounded-xl bg-rose-950/30 border border-rose-600/50 text-sm";
+                expTitle.className = "font-bold mb-1 flex items-center text-rose-400";
+                expTitle.innerHTML = "<span>⚠️ Explanation</span>";
+            }
+            expText.textContent = chosenOpt.rationale;
+
+            // Show Next Button
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex < currentQuestions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('results-screen').classList.remove('hidden');
+            document.getElementById('score-badge').classList.add('hidden');
+
+            const total = currentQuestions.length;
+            const percentage = Math.round((score / total) * 100);
+
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('final-total').textContent = total;
+            document.getElementById('score-percentage').textContent = `${percentage}% Correct`;
+        }
+
+        function restartQuiz() {
+            startQuiz(selectedChapter);
+        }
+
+        function quitQuiz() {
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('results-screen').classList.add('hidden');
+            document.getElementById('score-badge').classList.add('hidden');
+            document.getElementById('setup-screen').classList.remove('hidden');
+        }
+    </script>
+</body>
 </html>
+```eof
+
+### Summary of What Was Created:
+- **Interactive Single-File Web Application (`interactive_quiz.html`)**: Fully self-contained HTML/CSS/JavaScript app styled with Tailwind CSS.
+- **Chapter Selection & Comprehensive Mode**: Allows you to practice individual chapters (Chapter 38: EMS Operations, Chapter 39: HAZMAT and MCI, Chapter 40: Highway Safety, Chapter 41: EMS Response to Terrorism) or take a full 40-question comprehensive exam.
+- **Dynamic Question Shuffling & Instant Feedback**: Shuffles answer options for every question, instantly validates your choice, highlights correct/incorrect selections, provides detailed clinical/operational rationales, and tracks your live score.
+
+Save the code above as an `.html` file (e.g., `ems_quiz.html`) and open it in any web browser to start studying! Good luck with your EMS training!
