@@ -539,6 +539,7 @@
 
   <script>
     const questionBank = [
+      // Section 1
       {
         id: "sec1_1", section: 1, number: 1,
         text: "In which of the following situations is it legal to share information about treatment you provided to a patient?",
@@ -558,28 +559,30 @@
       {
         id: "sec1_5", section: 1, number: 5,
         text: "Please identify the following bones:",
-        choices: ["Radius", "Humerus", "Ulna", "Femur"], correct: 3, image: "images/sec1_q5.jpg"
+        choices: ["Radius", "Humerus", "Ulna", "Femur"], correct: 1, image: "images/sec1_q5.png"
       },
       {
         id: "sec1_72", section: 1, number: 72,
         text: "Please identify the following structure:",
-        choices: ["Maxilla", "Mandible", "Zygomatic", "Orbit"], correct: 1, image: "images/sec1_q72.jpg"
+        choices: ["Maxilla", "Mandible", "Zygomatic", "Orbit"], correct: 1, image: "images/sec1_q72.png"
       },
       {
         id: "sec1_83", section: 1, number: 83,
         text: "Please identify the following structure for figure #3:",
-        choices: ["Right Atrium", "Left Atrium", "Right Ventricle", "Left Ventricle"], correct: 1, image: "images/sec1_q83.jpg"
+        choices: ["Right Atrium", "Left Atrium", "Right Ventricle", "Left Ventricle"], correct: 0, image: "images/sec1_q83.png"
       },
       {
         id: "sec1_89", section: 1, number: 89,
         text: "Please identify the following structures:",
-        choices: ["Femur", "Tibia", "Fibula", "Humerus"], correct: 0, image: "images/sec1_q89.jpg"
+        choices: ["Femur", "Tibia", "Fibula", "Humerus"], correct: 0, image: "images/sec1_q89.png"
       },
       {
         id: "sec1_99", section: 1, number: 99,
         text: "Please identify the following structure:",
-        choices: ["Acromion process", "Xiphoid process", "Mastoid process", "Uncinate process"], correct: 0, image: "images/sec1_q99.jpg"
+        choices: ["Acromion process", "Xiphoid process", "Mastoid process", "Uncinate process"], correct: 1, image: "images/sec1_q99.png"
       },
+
+      // Section 2 & 3
       {
         id: "sec2_1", section: 2, number: 1,
         text: "Which of the following means of taking a blood pressure may result in the EMT not being able to obtain a diastolic pressure.",
@@ -587,239 +590,4 @@
       },
       {
         id: "sec2_2", section: 2, number: 2,
-        text: "Your patient is breathing 8 shallow breaths per minute due to overdosing on unknown medications but he has a palpable radial pulse. He vomited prior to your arrival and is choking. You should:",
-        choices: ["Begin PPV", "Move the patient to the ambulance and suction.", "Roll him over onto his side to clear the airway.", "Insert an oropharyngeal airway and ventilate."], correct: 1, image: null
-      },
-      {
-        id: "sec4_1", section: 4, number: 1,
-        text: "A patient with renal disease who is currently on dialysis and missed an appointment may present with dangerously high levels of the electrolyte:",
-        choices: ["phosphorous", "potassium", "calcium", "sodium"], correct: 1, image: null
-      },
-      {
-        id: "sec4_65", section: 4, number: 65,
-        text: "Please identify this cardiac rhythm:",
-        choices: ["Asystole", "Ventricular Tachycardia", "Sinus Rhythm", "Ventricular Fibrillation"], correct: 3, image: "images/sec4_q65.jpg"
-      },
-      {
-        id: "sec4_71", section: 4, number: 71,
-        text: "Identify the following rhythm:",
-        choices: ["Ventricular Tachycardia", "Ventricular Fibrillation", "PEA", "Asystole"], correct: 3, image: "images/sec4_q71.jpg"
-      },
-      {
-        id: "sec5_1", section: 5, number: 1,
-        text: "Heat cramps occur due to the loss of which of the following electrolytes?",
-        choices: ["Sodium.", "Potassium.", "Calcium.", "Magnesium."], correct: 0, image: null
-      },
-      {
-        id: "sec5_29", section: 5, number: 29,
-        text: "Please name the following sign:",
-        choices: ["Ruptured Eye Lens", "Hyphema", "Orbital Hemorrhage", "Pupillary Contusion"], correct: 1, image: "images/sec5_q29.jpg"
-      },
-      {
-        id: "sec5_75", section: 5, number: 75,
-        text: "Your 40-year-old male patient was mowing a steep embankment when his tractor rolled over the top of his chest. First responders have assisted the tractor off prior to your arrival. Please utilize the picture below as your assessment for determining your primary impression.",
-        choices: ["Commotio cordis", "Traumatic asphyxia", "Basilar skull fracture", "Tension Pneumothorax"], correct: 1, image: "images/sec5_q75.jpg"
-      },
-      {
-        id: "sec6_1", section: 6, number: 1,
-        text: "Your patient relates that she has been suffering from morning sickness during her first trimester. She states that she has been suffering from excessive nausea with vomiting with little relief from prescription medications. This condition is known as:",
-        choices: ["Preeclampsia", "Eclampsia", "Hyperemesis Gravidarium", "Gestational Diabetes"], correct: 2, image: null
-      },
-      {
-        id: "sec6_2", section: 6, number: 2,
-        text: "You have been called for a 2-year-old female who has fallen and is bleeding from a head laceration. Her mother states that she was toddling down the hallway when she fell, striking her head on a side table. You suspect that part of the reason she fell is that:",
-        choices: ["her head is proportionately larger and heavier than an adult's.", "she has low blood sugar, making her unstable.", "She is experiencing a neurological problem.", "The patient is likely being neglected or abused."], correct: 0, image: null
-      }
-    ];
-
-    let currentQuiz = [];
-    let currentIndex = 0;
-    let userAnswers = {};
-    let crossedOutChoices = {};
-    let flaggedQuestions = new Set();
-
-    // Dark mode setup
-    const darkModeToggle = document.getElementById("dark-mode-toggle");
-    const savedTheme = localStorage.getItem("emt_theme") || "light";
-    if (savedTheme === "dark") {
-      document.documentElement.setAttribute("data-theme", "dark");
-      darkModeToggle.textContent = "☀️ Light Mode";
-    }
-
-    darkModeToggle.addEventListener("click", () => {
-      const current = document.documentElement.getAttribute("data-theme");
-      if (current === "dark") {
-        document.documentElement.setAttribute("data-theme", "light");
-        localStorage.setItem("emt_theme", "light");
-        darkModeToggle.textContent = "🌙 Dark Mode";
-      } else {
-        document.documentElement.setAttribute("data-theme", "dark");
-        localStorage.setItem("emt_theme", "dark");
-        darkModeToggle.textContent = "☀️ Light Mode";
-      }
-    });
-
-    function showScreen(screenId) {
-      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-      document.getElementById(screenId).classList.add("active");
-    }
-
-    function returnHome() { showScreen("home-screen"); }
-    function startSectionQuiz(sectionNum) { currentQuiz = questionBank.filter(q => q.section === sectionNum); initQuizSession(); }
-    function startQuickQuiz() { currentQuiz = [...questionBank].sort(() => 0.5 - Math.random()).slice(0, 10); initQuizSession(); }
-    function startAllQuiz() { currentQuiz = [...questionBank]; initQuizSession(); }
-    function openCustomModal() { document.getElementById("custom-modal").classList.remove("hidden"); }
-    function closeCustomModal() { document.getElementById("custom-modal").classList.add("hidden"); }
-
-    function startCustomQuiz() {
-      const count = parseInt(document.getElementById("custom-count").value) || 10;
-      const selectedSections = Array.from(document.querySelectorAll('input[name="sec-chk"]:checked')).map(cb => parseInt(cb.value));
-      let pool = questionBank.filter(q => selectedSections.includes(q.section));
-      pool.sort(() => 0.5 - Math.random());
-      currentQuiz = pool.slice(0, count);
-      closeCustomModal();
-      initQuizSession();
-    }
-
-    function initQuizSession() {
-      currentIndex = 0;
-      userAnswers = {};
-      crossedOutChoices = {};
-      flaggedQuestions.clear();
-      if (currentQuiz.length === 0) { alert("No questions available for this selection."); return; }
-      showScreen("quiz-screen");
-      loadQuestion();
-    }
-
-    function loadQuestion() {
-      const q = currentQuiz[currentIndex];
-      document.getElementById("progress-indicator").textContent = `Question ${currentIndex + 1} of ${currentQuiz.length}`;
-      document.getElementById("question-text").textContent = `${currentIndex + 1}. ${q.text}`;
-      
-      const flagBtn = document.getElementById("flag-btn");
-      if (flaggedQuestions.has(q.id)) {
-        flagBtn.textContent = "🚩 Unflag";
-        flagBtn.style.borderColor = "var(--warning)";
-      } else {
-        flagBtn.textContent = "🚩 Flag";
-        flagBtn.style.borderColor = "var(--border)";
-      }
-
-      const imgBox = document.getElementById("image-container");
-      if (q.image) {
-        imgBox.classList.remove("hidden");
-        imgBox.innerHTML = `<img src="${q.image}" alt="Question Image" onerror="this.onerror=null; this.parentNode.innerHTML='<div class=\\'img-placeholder\\'>IMAGE NEEDED: Section ${q.section}, Question ${q.number}</div>';">`;
-      } else {
-        imgBox.classList.add("hidden");
-        imgBox.innerHTML = "";
-      }
-
-      const choicesContainer = document.getElementById("choices-container");
-      choicesContainer.innerHTML = "";
-
-      if (!crossedOutChoices[q.id]) crossedOutChoices[q.id] = new Set();
-
-      q.choices.forEach((choiceText, index) => {
-        const row = document.createElement("div");
-        row.className = "choice-row";
-
-        const crossBtn = document.createElement("button");
-        crossBtn.className = "cross-btn";
-        crossBtn.textContent = "✕";
-        crossBtn.title = "Cross out choice";
-        if (crossedOutChoices[q.id].has(index)) {
-          crossBtn.style.backgroundColor = "rgba(239, 68, 68, 0.15)";
-        }
-        crossBtn.onclick = (e) => {
-          e.stopPropagation();
-          toggleCrossOut(q.id, index);
-        };
-
-        const choiceBtn = document.createElement("button");
-        choiceBtn.className = "choice-btn";
-        choiceBtn.textContent = choiceText;
-
-        if (crossedOutChoices[q.id].has(index)) choiceBtn.classList.add("crossed");
-        if (userAnswers[q.id] === index) choiceBtn.classList.add("selected");
-
-        choiceBtn.onclick = () => {
-          if (crossedOutChoices[q.id].has(index)) return;
-          userAnswers[q.id] = index;
-          loadQuestion();
-        };
-
-        row.appendChild(crossBtn);
-        row.appendChild(choiceBtn);
-        choicesContainer.appendChild(row);
-      });
-
-      document.getElementById("prev-btn").disabled = currentIndex === 0;
-      document.getElementById("next-btn").textContent = currentIndex === currentQuiz.length - 1 ? "Finish Quiz" : "Next";
-    }
-
-    function toggleCrossOut(qId, choiceIdx) {
-      if (!crossedOutChoices[qId]) crossedOutChoices[qId] = new Set();
-      if (crossedOutChoices[qId].has(choiceIdx)) {
-        crossedOutChoices[qId].delete(choiceIdx);
-      } else {
-        if (userAnswers[qId] === choiceIdx) delete userAnswers[qId];
-        crossedOutChoices[qId].add(choiceIdx);
-      }
-      loadQuestion();
-    }
-
-    function toggleFlag() {
-      const q = currentQuiz[currentIndex];
-      if (flaggedQuestions.has(q.id)) flaggedQuestions.delete(q.id);
-      else flaggedQuestions.add(q.id);
-      loadQuestion();
-    }
-
-    function prevQuestion() { if (currentIndex > 0) { currentIndex--; loadQuestion(); } }
-    function nextQuestion() {
-      if (currentIndex < currentQuiz.length - 1) { currentIndex++; loadQuestion(); }
-      else { showResults(); }
-    }
-
-    function showResults() {
-      showScreen("results-screen");
-      let score = 0;
-      let missedListHTML = "";
-
-      currentQuiz.forEach((q, idx) => {
-        const userAns = userAnswers[q.id];
-        const isCorrect = userAns === q.correct;
-        if (isCorrect) score++;
-        else {
-          missedListHTML += `
-            <div style="margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem;">
-              <strong>Q${idx + 1}: ${q.text}</strong><br>
-              <span style="color: var(--danger);">Your Answer: ${userAns !== undefined ? q.choices[userAns] : "None"}</span><br>
-              <span style="color: var(--accent);">Correct Answer: ${q.choices[q.correct]}</span>
-            </div>
-          `;
-        }
-      });
-
-      const percentage = Math.round((score / currentQuiz.length) * 100);
-      document.getElementById("score-text").textContent = `You scored ${score} out of ${currentQuiz.length}`;
-      document.getElementById("percentage-text").textContent = `${percentage}%`;
-      
-      const missedListElem = document.getElementById("missed-list");
-      if (missedListHTML === "") {
-        missedListElem.innerHTML = "<p style='color: var(--accent); font-weight: 500;'>Fantastic job! No questions missed.</p>";
-        document.getElementById("retry-missed-btn").style.display = "none";
-      } else {
-        missedListElem.innerHTML = missedListHTML;
-        document.getElementById("retry-missed-btn").style.display = "inline-block";
-      }
-    }
-
-    function restartQuiz() { initQuizSession(); }
-    function retryMissed() {
-      currentQuiz = currentQuiz.filter(q => userAnswers[q.id] !== q.correct || flaggedQuestions.has(q.id));
-      initQuizSession();
-    }
-  </script>
-</body>
-</html>
+        text: "Your patient is breathing 8 shallow breaths per minute due to overdosing on
