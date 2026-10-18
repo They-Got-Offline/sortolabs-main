@@ -1,834 +1,212 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EMT Exam Study Portal</title>
-  <style>
-    :root {
-      --bg-color: #f8fafc;
-      --card-bg: #ffffff;
-      --text-color: #1e293b;
-      --text-muted: #64748b;
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --accent: #10b981;
-      --border: #e2e8f0;
-      --danger: #ef4444;
-      --warning: #f59e0b;
-      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    }
-
-    [data-theme="dark"] {
-      --bg-color: #0f172a;
-      --card-bg: #1e293b;
-      --text-color: #f8fafc;
-      --text-muted: #94a3b8;
-      --primary: #3b82f6;
-      --primary-hover: #60a5fa;
-      --accent: #34d399;
-      --border: #334155;
-      --danger: #f87171;
-      --warning: #fbbf24;
-      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-    }
-
-    * {
-      box-sizing: border-box;
-      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-    }
-
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      margin: 0;
-      padding: 0;
-      line-height: 1.5;
-    }
-
-    header {
-      background-color: var(--card-bg);
-      border-bottom: 1px solid var(--border);
-      padding: 1rem 2rem;
-      box-shadow: var(--shadow);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    .header-content {
-      max-width: 1000px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--primary);
-    }
-
-    #dark-mode-toggle {
-      background: var(--bg-color);
-      border: 1px solid var(--border);
-      color: var(--text-color);
-      padding: 0.5rem 1rem;
-      border-radius: 9999px;
-      cursor: pointer;
-      font-weight: 500;
-      font-size: 0.875rem;
-    }
-
-    #dark-mode-toggle:hover {
-      border-color: var(--primary);
-    }
-
-    .container {
-      max-width: 900px;
-      margin: 2.5rem auto;
-      padding: 0 1.5rem;
-    }
-
-    .screen {
-      display: none;
-    }
-
-    .screen.active {
-      display: block;
-      animation: fadeIn 0.3s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    h2 {
-      margin-top: 0;
-      font-size: 1.75rem;
-      font-weight: 700;
-      letter-spacing: -0.025em;
-    }
-
-    .subtitle {
-      color: var(--text-muted);
-      margin-bottom: 2rem;
-      font-size: 1rem;
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.25rem;
-    }
-
-    .module-card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      text-align: left;
-      cursor: pointer;
-      box-shadow: var(--shadow);
-      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-      color: var(--text-color);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .module-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-      border-color: var(--primary);
-    }
-
-    .module-card.accent {
-      border-left: 4px solid var(--primary);
-    }
-
-    .module-card h3 {
-      margin: 0 0 0.5rem 0;
-      color: var(--primary);
-      font-size: 1.15rem;
-    }
-
-    .module-card p {
-      margin: 0;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-    }
-
-    /* Quiz Screen Styles */
-    .quiz-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-      background: var(--card-bg);
-      padding: 0.75rem 1.25rem;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-    }
-
-    #progress-indicator {
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-
-    .question-card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 2rem;
-      margin-bottom: 1.5rem;
-      box-shadow: var(--shadow);
-    }
-
-    .question-card h3 {
-      margin-top: 0;
-      font-size: 1.15rem;
-      font-weight: 600;
-      line-height: 1.6;
-    }
-
-    .choices-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      margin-top: 1.5rem;
-    }
-
-    .choice-row {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .cross-btn {
-      background: var(--bg-color);
-      border: 1px solid var(--border);
-      color: var(--danger);
-      font-weight: bold;
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: background 0.2s;
-    }
-
-    .cross-btn:hover {
-      background: rgba(239, 68, 68, 0.1);
-    }
-
-    .choice-btn {
-      flex: 1;
-      text-align: left;
-      padding: 1rem 1.25rem;
-      border: 1px solid var(--border);
-      background-color: var(--card-bg);
-      color: var(--text-color);
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 0.95rem;
-      transition: all 0.2s;
-    }
-
-    .choice-btn:hover:not(.crossed) {
-      border-color: var(--primary);
-      background-color: rgba(37, 99, 235, 0.03);
-    }
-
-    .choice-btn.selected {
-      border-color: var(--primary);
-      background-color: rgba(37, 99, 235, 0.1);
-      font-weight: 600;
-    }
-
-    .choice-btn.crossed {
-      text-decoration: line-through;
-      opacity: 0.4;
-      background-color: var(--bg-color);
-      cursor: not-allowed;
-    }
-
-    .quiz-footer {
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-
-    .btn-primary, .btn-secondary {
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 0.95rem;
-      border: none;
-      transition: background 0.2s, transform 0.1s;
-    }
-
-    .btn-primary:active, .btn-secondary:active {
-      transform: scale(0.98);
-    }
-
-    .btn-primary {
-      background-color: var(--primary);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background-color: var(--primary-hover);
-    }
-
-    .btn-secondary {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border);
-      color: var(--text-color);
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--text-muted);
-    }
-
-    /* Image Box */
-    .image-box {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border);
-      padding: 1.25rem;
-      border-radius: 12px;
-      text-align: center;
-      margin-bottom: 1.5rem;
-      box-shadow: var(--shadow);
-    }
-
-    .image-box img {
-      max-width: 100%;
-      max-height: 280px;
-      border-radius: 6px;
-    }
-
-    .img-placeholder {
-      color: var(--danger);
-      font-weight: 600;
-      border: 2px dashed var(--danger);
-      padding: 1.5rem;
-      border-radius: 8px;
-      background: rgba(239, 68, 68, 0.03);
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    /* Results Screen */
-    .score-card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border);
-      padding: 2.5rem;
-      border-radius: 12px;
-      text-align: center;
-      margin-bottom: 1.5rem;
-      box-shadow: var(--shadow);
-    }
-
-    .score-card h1 {
-      font-size: 3.5rem;
-      margin: 0.5rem 0 0 0;
-      color: var(--primary);
-    }
-
-    .results-actions {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
-    }
-
-    #missed-container {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border);
-      padding: 1.5rem;
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-    }
-
-    /* Modal */
-    .modal {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(4px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-    }
-
-    .modal-content {
-      background: var(--card-bg);
-      padding: 2rem;
-      border-radius: 16px;
-      width: 90%;
-      max-width: 420px;
-      border: 1px solid var(--border);
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
-    }
-
-    .modal-content input[type="number"] {
-      width: 100%;
-      padding: 0.75rem;
-      border: 1px solid var(--border);
-      background: var(--bg-color);
-      color: var(--text-color);
-      border-radius: 8px;
-      font-size: 1rem;
-      margin-top: 0.5rem;
-    }
-
-    .section-checkboxes {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      margin: 1.25rem 0;
-      background: var(--bg-color);
-      padding: 1rem;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-    }
-
-    .section-checkboxes label {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      cursor: pointer;
-      font-weight: 500;
-    }
-
-    .modal-buttons {
-      display: flex;
-      justify-content: flex-end;
-      gap: 0.75rem;
-      margin-top: 1.5rem;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <div class="header-content">
-      <h1>EMT Exam Study Portal</h1>
-      <button id="dark-mode-toggle" aria-label="Toggle Dark Mode">🌙 Dark Mode</button>
-    </div>
-  </header>
-
-  <main class="container">
-    <!-- HOME SCREEN -->
-    <section id="home-screen" class="screen active">
-      <h2>Study Modules</h2>
-      <p class="subtitle">Select a section or quiz mode below to begin reviewing.</p>
-      
-      <div class="card-grid">
-        <button class="module-card" onclick="startSectionQuiz(1)">
-          <h3>Section 1</h3>
-          <p>Roles, Legal, A&amp;P, Lifespan</p>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#0e1424" />
+    <meta name="description" content="Private, offline-capable EMT exam practice website." />
+    <title>EMT Exam Prep | Study Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="questions.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="shell topbar-inner">
+        <button class="brand" id="homeButton" type="button" aria-label="Go to the study dashboard">
+          <span class="brand-logo">✚</span>
+          <span class="brand-copy"
+            ><strong>EMT <span class="accent">Exam Prep</span></strong
+            ><small>PERSONAL STUDY DASHBOARD</small></span
+          >
         </button>
-        <button class="module-card" onclick="startSectionQuiz(2)">
-          <h3>Section 2 &amp; 3</h3>
-          <p>Assessment &amp; Airway</p>
-        </button>
-        <button class="module-card" onclick="startSectionQuiz(4)">
-          <h3>Section 4</h3>
-          <p>Medical Emergencies &amp; Pharmacology</p>
-        </button>
-        <button class="module-card" onclick="startSectionQuiz(5)">
-          <h3>Section 5</h3>
-          <p>Trauma, Bleeding &amp; Environmental</p>
-        </button>
-        <button class="module-card" onclick="startSectionQuiz(6)">
-          <h3>Section 6</h3>
-          <p>OB/GYN &amp; Pediatrics</p>
-        </button>
-        <button class="module-card accent" onclick="startQuickQuiz()">
-          <h3>⚡ Quick Random</h3>
-          <p>10 Random Questions</p>
-        </button>
-        <button class="module-card accent" onclick="startAllQuiz()">
-          <h3>📚 All Questions</h3>
-          <p>Comprehensive Review</p>
-        </button>
-        <button class="module-card accent" onclick="openCustomModal()">
-          <h3>⚙️ Custom Quiz</h3>
-          <p>Choose count &amp; sections</p>
-        </button>
+        <div class="topbar-actions">
+          <span class="topbar-note" id="saveNote"><span class="save-dot"></span> Saved on this device</span>
+          <button
+            id="themeButton"
+            class="icon-button"
+            type="button"
+            aria-label="Toggle dark mode"
+            title="Toggle dark mode">
+            ☀
+          </button>
+        </div>
       </div>
-    </section>
+    </header>
+    <main class="shell" id="main" tabindex="-1">
+      <section id="homeView" class="view" aria-label="Dashboard">
+        <div class="intro">
+          <span class="eyebrow"><span class="tiny-dot"></span> YOUR STUDY SPACE</span>
+          <h1>Get ready for <em>exam day.</em></h1>
+          <p>
+            Pick a section, focus on the questions you need, and study at your own pace. Your answers and progress stay
+            on this device.
+          </p>
+        </div>
+        <div id="notice" class="notice" role="note">
+          <strong>Provisional question bank.</strong> Some questions and answers still need review. All nine image-based
+          questions now include their images.
+        </div>
+        <section class="resume-card hidden" id="resumeCard" aria-labelledby="resumeTitle">
+          <div>
+            <span class="eyebrow">PICK UP WHERE YOU LEFT OFF</span>
+            <h2 id="resumeTitle">Continue your quiz</h2>
+            <p id="resumeDetails"></p>
+          </div>
+          <div class="resume-actions">
+            <button class="primary-button" id="resumeButton">Resume <span aria-hidden="true">→</span></button
+            ><button class="quiet-button" id="discardButton">Discard</button>
+          </div>
+        </section>
+        <div class="stats" id="stats"></div>
+        <div class="section-title-row">
+          <div>
+            <h2>Study by section</h2>
+            <p>Focused practice from your exam packet</p>
+          </div>
+          <span class="mini-label" id="loadedCount"></span>
+        </div>
+        <div id="sectionCards" class="section-grid"></div>
+        <div class="section-title-row spaced">
+          <div>
+            <h2>More ways to practice</h2>
+            <p>Mix things up or build a quiz around your goals</p>
+          </div>
+        </div>
+        <div class="mode-grid">
+          <button class="mode-card" data-start="quick" type="button">
+            <span class="mode-icon">⚡</span
+            ><span class="mode-body"
+              ><strong>Quick Random</strong><small>10 random questions from all available sections</small></span
+            ><span class="arrow">↗</span>
+          </button>
+          <button class="mode-card" data-start="all" type="button">
+            <span class="mode-icon">☷</span
+            ><span class="mode-body"
+              ><strong>All Questions</strong><small>Everything in order, with a shuffle option</small></span
+            ><span class="arrow">↗</span>
+          </button>
+          <button class="mode-card" data-start="custom" type="button">
+            <span class="mode-icon">⚙</span
+            ><span class="mode-body"><strong>Custom Quiz</strong><small>Choose the number and the sections</small></span
+            ><span class="arrow">↗</span>
+          </button>
+        </div>
+      </section>
 
-    <!-- QUIZ SCREEN -->
-    <section id="quiz-screen" class="screen">
-      <div class="quiz-header">
-        <button class="btn-secondary" onclick="returnHome()">🏠 Home</button>
-        <span id="progress-indicator">Question 1 of 10</span>
-        <button id="flag-btn" class="btn-secondary" onclick="toggleFlag()">🚩 Flag</button>
-      </div>
-
-      <div id="image-container" class="image-box hidden"></div>
-
-      <div class="question-card">
-        <h3 id="question-text">Loading question...</h3>
-        <div id="choices-container" class="choices-list"></div>
-      </div>
-
-      <div class="quiz-footer">
-        <button id="prev-btn" class="btn-secondary" onclick="prevQuestion()">Previous</button>
-        <button id="next-btn" class="btn-primary" onclick="nextQuestion()">Next</button>
-      </div>
-    </section>
-
-    <!-- RESULTS SCREEN -->
-    <section id="results-screen" class="screen">
-      <h2>Quiz Results</h2>
-      <div class="score-card">
-        <p id="score-text" style="color: var(--text-muted); margin: 0;">You scored 0 out of 0</p>
-        <h1 id="percentage-text">0%</h1>
-      </div>
-
-      <div class="results-actions">
-        <button class="btn-primary" onclick="restartQuiz()">🔄 Retake Quiz</button>
-        <button class="btn-secondary" onclick="retryMissed()" id="retry-missed-btn">🔁 Retry Missed / Flagged</button>
-        <button class="btn-secondary" onclick="returnHome()">🏠 Back to Home</button>
-      </div>
-
-      <div id="missed-container">
-        <h3 style="margin-top: 0;">Review Missed Questions</h3>
-        <div id="missed-list"></div>
-      </div>
-    </section>
-  </main>
-
-  <!-- CUSTOM QUIZ MODAL -->
-  <div id="custom-modal" class="modal hidden">
-    <div class="modal-content">
-      <h3 style="margin-top:0;">Create Custom Quiz</h3>
-      <label for="custom-count" style="font-size: 0.9rem; font-weight: 500;">Number of Questions:</label>
-      <input type="number" id="custom-count" value="10" min="1" max="100">
-      
-      <div class="section-checkboxes">
-        <label><input type="checkbox" name="sec-chk" value="1" checked> Section 1</label>
-        <label><input type="checkbox" name="sec-chk" value="2" checked> Section 2 &amp; 3</label>
-        <label><input type="checkbox" name="sec-chk" value="4" checked> Section 4</label>
-        <label><input type="checkbox" name="sec-chk" value="5" checked> Section 5</label>
-        <label><input type="checkbox" name="sec-chk" value="6" checked> Section 6</label>
-      </div>
-
-      <div class="modal-buttons">
-        <button class="btn-secondary" onclick="closeCustomModal()">Cancel</button>
-        <button class="btn-primary" onclick="startCustomQuiz()">Start Quiz</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const questionBank = [
-      // Section 1
-      {
-        id: "sec1_1", section: 1, number: 1,
-        text: "In which of the following situations is it legal to share information about treatment you provided to a patient?",
-        choices: [
-          "The triage nurse at the emergency department asks about the care you provided to the patient.",
-          "The patient gives verbal consent to release information to a friend.",
-          "The patient's lawyer requests the information over the phone.",
-          "You are asked by a coworker who knows the patient."
-        ],
-        correct: 0, image: null
-      },
-      {
-        id: "sec1_2", section: 1, number: 2,
-        text: "A patient breathing in room air should be receiving percent oxygen.",
-        choices: ["16", "19", "21", "100"], correct: 2, image: null
-      },
-      {
-        id: "sec1_5", section: 1, number: 5,
-        text: "Please identify the following bones:",
-        choices: ["Radius", "Humerus", "Ulna", "Femur"], correct: 1, image: "images/sec1_q5.png"
-      },
-      {
-        id: "sec1_72", section: 1, number: 72,
-        text: "Please identify the following structure:",
-        choices: ["Maxilla", "Mandible", "Zygomatic", "Orbit"], correct: 1, image: "images/sec1_q72.png"
-      },
-      {
-        id: "sec1_83", section: 1, number: 83,
-        text: "Please identify the following structure for figure #3:",
-        choices: ["Right Atrium", "Left Atrium", "Right Ventricle", "Left Ventricle"], correct: 0, image: "images/sec1_q83.png"
-      },
-      {
-        id: "sec1_89", section: 1, number: 89,
-        text: "Please identify the following structures:",
-        choices: ["Femur", "Tibia", "Fibula", "Humerus"], correct: 0, image: "images/sec1_q89.png"
-      },
-      {
-        id: "sec1_99", section: 1, number: 99,
-        text: "Please identify the following structure:",
-        choices: ["Acromion process", "Xiphoid process", "Mastoid process", "Uncinate process"], correct: 1, image: "images/sec1_q99.png"
-      },
-
-      // Section 2 & 3
-      {
-        id: "sec2_1", section: 2, number: 1,
-        text: "Which of the following means of taking a blood pressure may result in the EMT not being able to obtain a diastolic pressure.",
-        choices: ["Invasive blood pressure monitoring", "Auscultation", "Automated", "Palpation"], correct: 3, image: null
-      },
-      {
-        id: "sec2_2", section: 2, number: 2,
-        text: "Your patient is breathing 8 shallow breaths per minute due to overdosing on unknown medications but he has a palpable radial pulse. He vomited prior to your arrival and is choking. You should:",
-        choices: ["Begin PPV", "Move the patient to the ambulance and suction.", "Roll him over onto his side to clear the airway.", "Insert an oropharyngeal airway and ventilate."], correct: 1, image: null
-      },
-
-      // Section 4
-      {
-        id: "sec4_1", section: 4, number: 1,
-        text: "A patient with renal disease who is currently on dialysis and missed an appointment may present with dangerously high levels of the electrolyte:",
-        choices: ["phosphorous", "potassium", "calcium", "sodium"], correct: 1, image: null
-      },
-      {
-        id: "sec4_65", section: 4, number: 65,
-        text: "Please identify this cardiac rhythm:",
-        choices: ["Asystole", "Ventricular Tachycardia", "Sinus Rhythm", "Ventricular Fibrillation"], correct: 1, image: "images/sec4_q65.png"
-      },
-      {
-        id: "sec4_71", section: 4, number: 71,
-        text: "Identify the following rhythm:",
-        choices: ["Ventricular Tachycardia", "Ventricular Fibrillation", "PEA", "Asystole"], correct: 3, image: "images/sec4_q71.png"
-      },
-
-      // Section 5
-      {
-        id: "sec5_1", section: 5, number: 1,
-        text: "Heat cramps occur due to the loss of which of the following electrolytes?",
-        choices: ["Sodium.", "Potassium.", "Calcium.", "Magnesium."], correct: 0, image: null
-      },
-      {
-        id: "sec5_29", section: 5, number: 29,
-        text: "Please name the following sign:",
-        choices: ["Ruptured Eye Lens", "Hyphema", "Orbital Hemorrhage", "Pupillary Contusion"], correct: 1, image: "images/sec5_q29.png"
-      },
-      {
-        id: "sec5_75", section: 5, number: 75,
-        text: "Your 40-year-old male patient was mowing a steep embankment when his tractor rolled over the top of his chest. First responders have assisted the tractor off prior to your arrival. Please utilize the picture below as your assessment for determining your primary impression.",
-        choices: ["Commotio cordis", "Traumatic asphyxia", "Basilar skull fracture", "Tension Pneumothorax"], correct: 1, image: "images/sec5_q75.png"
-      },
-
-      // Section 6
-      {
-        id: "sec6_1", section: 6, number: 1,
-        text: "Your patient relates that she has been suffering from morning sickness during her first trimester. She states that she has been suffering from excessive nausea with vomiting with little relief from prescription medications. This condition is known as:",
-        choices: ["Preeclampsia", "Eclampsia", "Hyperemesis Gravidarium", "Gestational Diabetes"], correct: 2, image: null
-      },
-      {
-        id: "sec6_2", section: 6, number: 2,
-        text: "You have been called for a 2-year-old female who has fallen and is bleeding from a head laceration. Her mother states that she was toddling down the hallway when she fell, striking her head on a side table. You suspect that part of the reason she fell is that:",
-        choices: ["her head is proportionately larger and heavier than an adult's.", "she has low blood sugar, making her unstable.", "She is experiencing a neurological problem.", "The patient is likely being neglected or abused."], correct: 0, image: null
-      }
-    ];
-
-    let currentQuiz = [];
-    let currentIndex = 0;
-    let userAnswers = {};
-    let crossedOutChoices = {};
-    let flaggedQuestions = new Set();
-
-    // Dark mode setup
-    const darkModeToggle = document.getElementById("dark-mode-toggle");
-    const savedTheme = localStorage.getItem("emt_theme") || "light";
-    if (savedTheme === "dark") {
-      document.documentElement.setAttribute("data-theme", "dark");
-      darkModeToggle.textContent = "☀️ Light Mode";
-    }
-
-    darkModeToggle.addEventListener("click", () => {
-      const current = document.documentElement.getAttribute("data-theme");
-      if (current === "dark") {
-        document.documentElement.setAttribute("data-theme", "light");
-        localStorage.setItem("emt_theme", "light");
-        darkModeToggle.textContent = "🌙 Dark Mode";
-      } else {
-        document.documentElement.setAttribute("data-theme", "dark");
-        localStorage.setItem("emt_theme", "dark");
-        darkModeToggle.textContent = "☀️ Light Mode";
-      }
-    });
-
-    function showScreen(screenId) {
-      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-      document.getElementById(screenId).classList.add("active");
-    }
-
-    function returnHome() { showScreen("home-screen"); }
-    function startSectionQuiz(sectionNum) { currentQuiz = questionBank.filter(q => q.section === sectionNum); initQuizSession(); }
-    function startQuickQuiz() { currentQuiz = [...questionBank].sort(() => 0.5 - Math.random()).slice(0, 10); initQuizSession(); }
-    function startAllQuiz() { currentQuiz = [...questionBank]; initQuizSession(); }
-    function openCustomModal() { document.getElementById("custom-modal").classList.remove("hidden"); }
-    function closeCustomModal() { document.getElementById("custom-modal").classList.add("hidden"); }
-
-    function startCustomQuiz() {
-      const count = parseInt(document.getElementById("custom-count").value) || 10;
-      const selectedSections = Array.from(document.querySelectorAll('input[name="sec-chk"]:checked')).map(cb => parseInt(cb.value));
-      let pool = questionBank.filter(q => selectedSections.includes(q.section));
-      pool.sort(() => 0.5 - Math.random());
-      currentQuiz = pool.slice(0, count);
-      closeCustomModal();
-      initQuizSession();
-    }
-
-    function initQuizSession() {
-      currentIndex = 0;
-      userAnswers = {};
-      crossedOutChoices = {};
-      flaggedQuestions.clear();
-      if (currentQuiz.length === 0) { alert("No questions available for this selection."); return; }
-      showScreen("quiz-screen");
-      loadQuestion();
-    }
-
-    function loadQuestion() {
-      const q = currentQuiz[currentIndex];
-      document.getElementById("progress-indicator").textContent = `Question ${currentIndex + 1} of ${currentQuiz.length}`;
-      document.getElementById("question-text").textContent = `${currentIndex + 1}. ${q.text}`;
-      
-      const flagBtn = document.getElementById("flag-btn");
-      if (flaggedQuestions.has(q.id)) {
-        flagBtn.textContent = "🚩 Unflag";
-        flagBtn.style.borderColor = "var(--warning)";
-      } else {
-        flagBtn.textContent = "🚩 Flag";
-        flagBtn.style.borderColor = "var(--border)";
-      }
-
-      const imgBox = document.getElementById("image-container");
-      if (q.image) {
-        imgBox.classList.remove("hidden");
-        imgBox.innerHTML = `<img src="${q.image}" alt="Question Image" onerror="this.onerror=null; this.parentNode.innerHTML='<div class=\\'img-placeholder\\'>IMAGE NEEDED: Section ${q.section}, Question ${q.number}</div>';">`;
-      } else {
-        imgBox.classList.add("hidden");
-        imgBox.innerHTML = "";
-      }
-
-      const choicesContainer = document.getElementById("choices-container");
-      choicesContainer.innerHTML = "";
-
-      if (!crossedOutChoices[q.id]) crossedOutChoices[q.id] = new Set();
-
-      q.choices.forEach((choiceText, index) => {
-        const row = document.createElement("div");
-        row.className = "choice-row";
-
-        const crossBtn = document.createElement("button");
-        crossBtn.className = "cross-btn";
-        crossBtn.textContent = "✕";
-        crossBtn.title = "Cross out choice";
-        if (crossedOutChoices[q.id].has(index)) {
-          crossBtn.style.backgroundColor = "rgba(239, 68, 68, 0.15)";
-        }
-        crossBtn.onclick = (e) => {
-          e.stopPropagation();
-          toggleCrossOut(q.id, index);
-        };
-
-        const choiceBtn = document.createElement("button");
-        choiceBtn.className = "choice-btn";
-        choiceBtn.textContent = choiceText;
-
-        if (crossedOutChoices[q.id].has(index)) choiceBtn.classList.add("crossed");
-        if (userAnswers[q.id] === index) choiceBtn.classList.add("selected");
-
-        choiceBtn.onclick = () => {
-          if (crossedOutChoices[q.id].has(index)) return;
-          userAnswers[q.id] = index;
-          loadQuestion();
-        };
-
-        row.appendChild(crossBtn);
-        row.appendChild(choiceBtn);
-        choicesContainer.appendChild(row);
-      });
-
-      document.getElementById("prev-btn").disabled = currentIndex === 0;
-      document.getElementById("next-btn").textContent = currentIndex === currentQuiz.length - 1 ? "Finish Quiz" : "Next";
-    }
-
-    function toggleCrossOut(qId, choiceIdx) {
-      if (!crossedOutChoices[qId]) crossedOutChoices[qId] = new Set();
-      if (crossedOutChoices[qId].has(choiceIdx)) {
-        crossedOutChoices[qId].delete(choiceIdx);
-      } else {
-        if (userAnswers[qId] === choiceIdx) delete userAnswers[qId];
-        crossedOutChoices[qId].add(choiceIdx);
-      }
-      loadQuestion();
-    }
-
-    function toggleFlag() {
-      const q = currentQuiz[currentIndex];
-      if (flaggedQuestions.has(q.id)) flaggedQuestions.delete(q.id);
-      else flaggedQuestions.add(q.id);
-      loadQuestion();
-    }
-
-    function prevQuestion() { if (currentIndex > 0) { currentIndex--; loadQuestion(); } }
-    function nextQuestion() {
-      if (currentIndex < currentQuiz.length - 1) { currentIndex++; loadQuestion(); }
-      else { showResults(); }
-    }
-
-    function showResults() {
-      showScreen("results-screen");
-      let score = 0;
-      let missedListHTML = "";
-
-      currentQuiz.forEach((q, idx) => {
-        const userAns = userAnswers[q.id];
-        const isCorrect = userAns === q.correct;
-        if (isCorrect) score++;
-        else {
-          missedListHTML += `
-            <div style="margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem;">
-              <strong>Q${idx + 1}: ${q.text}</strong><br>
-              <span style="color: var(--danger);">Your Answer: ${userAns !== undefined ? q.choices[userAns] : "None"}</span><br>
-              <span style="color: var(--accent);">Correct Answer: ${q.choices[q.correct]}</span>
+      <section id="setupView" class="view hidden" aria-label="Quiz setup">
+        <button class="back-button" id="setupBack" type="button">← Back to dashboard</button>
+        <div class="setup-card">
+          <span class="eyebrow">MAKE IT YOURS</span>
+          <h1 id="setupTitle">Set up your quiz</h1>
+          <p id="setupSubtitle" class="muted"></p>
+          <form id="setupForm">
+            <div class="form-block" id="countBlock">
+              <label for="questionCount">Number of questions</label
+              ><input id="questionCount" name="count" type="number" min="1" step="1" value="10" inputmode="numeric" />
+              <p class="form-hint" id="countHint"></p>
             </div>
-          `;
-        }
-      });
+            <fieldset class="form-block hidden" id="sectionsBlock">
+              <legend>Include sections</legend>
+              <div id="sectionChecks" class="section-checks"></div>
+            </fieldset>
+            <fieldset class="form-block">
+              <legend>How would you like to practice?</legend>
+              <div class="radio-cards">
+                <label class="radio-card"
+                  ><input type="radio" name="quizMode" value="study" checked /><span
+                    ><strong>Study mode</strong><small>See the correct answer right away</small></span
+                  ></label
+                ><label class="radio-card"
+                  ><input type="radio" name="quizMode" value="test" /><span
+                    ><strong>Test mode</strong><small>Hold answers until the end</small></span
+                  ></label
+                >
+              </div>
+            </fieldset>
+            <label class="check-line"
+              ><input id="shuffleQuestions" type="checkbox" /><span>Shuffle question order</span></label
+            >
+            <label class="check-line"
+              ><input id="shuffleChoices" type="checkbox" checked /><span>Shuffle answer choices</span></label
+            >
+            <p class="form-alert hidden" id="setupWarning" role="status"></p>
+            <button class="primary-button start-button" type="submit">Start quiz <span>→</span></button>
+          </form>
+        </div>
+      </section>
 
-      const percentage = Math.round((score / currentQuiz.length) * 100);
-      document.getElementById("score-text").textContent = `You scored ${score} out of ${currentQuiz.length}`;
-      document.getElementById("percentage-text").textContent = `${percentage}%`;
-      
-      const missedListElem = document.getElementById("missed-list");
-      if (missedListHTML === "") {
-        missedListElem.innerHTML = "<p style='color: var(--accent); font-weight: 500;'>Fantastic job! No questions missed.</p>";
-        document.getElementById("retry-missed-btn").style.display = "none";
-      } else {
-        missedListElem.innerHTML = missedListHTML;
-        document.getElementById("retry-missed-btn").style.display = "inline-block";
-      }
-    }
+      <section id="quizView" class="view hidden" aria-label="Practice quiz">
+        <div class="quiz-topline">
+          <button class="back-button" id="quizExit" type="button">← Dashboard</button
+          ><span class="quiz-status" id="quizModeBadge">STUDY MODE</span>
+        </div>
+        <div class="quiz-head">
+          <div>
+            <span class="eyebrow" id="quizLabel">SECTION QUIZ</span>
+            <h1 id="quizTitle">Ready?</h1>
+          </div>
+          <button class="outline-button" id="finishEarly" type="button">Finish quiz</button>
+        </div>
+        <div class="notice hidden" id="capNotice" role="status"></div>
+        <div class="progress-caption">
+          <strong id="progressText">Question 1 of 10</strong><span id="answeredText">0 answered</span>
+        </div>
+        <div
+          class="progress-track"
+          role="progressbar"
+          aria-label="Quiz progress"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          id="progressTrack">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+        <div class="quiz-layout">
+          <div>
+            <article class="question-card" id="questionCard">
+              <div class="question-meta">
+                <span id="questionSection">SECTION 1 • QUESTION 1</span
+                ><button type="button" id="flagButton" class="flag-button" aria-pressed="false">
+                  ⚑ Flag for review
+                </button>
+              </div>
+              <h2 id="questionText"></h2>
+              <div id="questionReview" class="question-warning hidden"></div>
+              <div id="questionImage"></div>
+              <div class="choice-heading"><span>Select an answer</span><span>Tap ✕ to cross out options</span></div>
+              <div id="choices" class="choices"></div>
+              <div id="feedback" class="feedback hidden" aria-live="polite"></div>
+            </article>
+            <div class="quiz-navigation">
+              <button class="outline-button" id="prevButton" type="button">← Previous</button
+              ><span id="quizPageCount"></span
+              ><button class="primary-button" id="nextButton" type="button">Next question →</button>
+            </div>
+          </div>
+          <aside class="navigator">
+            <div class="navigator-header"><strong>Question navigator</strong><small>Tap a number to jump</small></div>
+            <div class="navigator-legend">
+              <span><i class="legend-square is-answered"></i> Answered</span
+              ><span><i class="legend-square is-flagged"></i> Flagged</span
+              ><span><i class="legend-square"></i> Pending</span>
+            </div>
+            <div class="number-grid" id="numberGrid"></div>
+            <button class="quiet-button nav-finish" type="button" id="navFinish">See results →</button>
+          </aside>
+        </div>
+      </section>
 
-    function restartQuiz() { initQuizSession(); }
-    function retryMissed() {
-      currentQuiz = currentQuiz.filter(q => userAnswers[q.id] !== q.correct || flaggedQuestions.has(q.id));
-      initQuizSession();
-    }
-  </script>
-</body>
+      <section id="resultsView" class="view hidden" aria-label="Quiz results">
+        <button class="back-button" id="resultsHome" type="button">← Dashboard</button>
+        <div id="resultsContent"></div>
+      </section>
+    </main>
+    <footer class="global-footer">
+      <div class="shell">
+        <span>Made for my love of learning EMS and coding.</span
+        ><span>Offline-first • Local progress • No account required (yet)</span>
+      </div>
+    </footer>
+  </body>
 </html>
