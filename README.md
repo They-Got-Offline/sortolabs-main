@@ -1,4 +1,4 @@
-# EMT Exam Prep — Static Study Website
+# E?MT E  Prep — Static Study Website
 
 A mobile-friendly study website that works with **plain HTML, CSS and JavaScript**. It has no backend, login, package manager, build step or internet dependency.
 
