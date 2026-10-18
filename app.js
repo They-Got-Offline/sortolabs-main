@@ -97,7 +97,7 @@
     $("stats").innerHTML = `
       <div class="stat-card"><strong>${overall}</strong><span>Questions loaded</span></div>
       <div class="stat-card"><strong>${history.length}</strong><span>Quizzes completed</span></div>
-      <div class="stat-card"><strong>${withAnswers}</strong><span>Questions with proposed answers</span></div>`;
+      <div class="stat-card"><strong>${withAnswers}</strong><span>Questions with answer keys</span></div>`;
     $("loadedCount").textContent = `${overall} total questions`;
     $("sectionCards").innerHTML = SECTION_DEFS.map((def) => {
       const num = group(def.id).length;
@@ -353,7 +353,7 @@
         const title = document.createElement("strong");
         title.textContent = correct ? "✓ Correct!" : "Not quite — review the answer";
         const content = document.createElement("div");
-        content.textContent = `Proposed correct answer: ${visualLetter}. ${q.choices[q.correctAnswer]}`;
+        content.textContent = `${q.instructorConfirmed ? "Teacher-confirmed answer" : q.answerSource === "User-confirmed (Round 1)" ? "User-confirmed answer" : "Provisional answer"}: ${visualLetter}. ${q.choices[q.correctAnswer]}`;
         feedback.append(title, content);
       } else {
         feedback.textContent =
@@ -443,7 +443,7 @@
         div.className = "result-item";
         const userAnswer = r.session.answers[q.id];
         const text = userAnswer ? `${userAnswer}. ${q.choices[userAnswer]}` : "Not answered";
-        div.innerHTML = `<strong>${safe(badgeText(q))}</strong><p>${safe(q.text)}</p><small>Your answer: ${safe(text)}</small><small>Proposed correct answer: ${safe(q.correctAnswer)}. ${safe(q.choices[q.correctAnswer])}</small>${q.needsReview ? "<small>⚠ OCR or answer may need review</small>" : ""}`;
+        div.innerHTML = `<strong>${safe(badgeText(q))}</strong><p>${safe(q.text)}</p><small>Your answer: ${safe(text)}</small><small>${q.instructorConfirmed ? "Teacher-confirmed answer" : q.answerSource === "User-confirmed (Round 1)" ? "User-confirmed answer" : "Provisional answer"}: ${safe(q.correctAnswer)}. ${safe(q.choices[q.correctAnswer])}</small>${q.needsReview ? "<small>⚠ OCR or answer may need review</small>" : ""}`;
         missed.append(div);
       });
     const ungraded = $("ungradedList");

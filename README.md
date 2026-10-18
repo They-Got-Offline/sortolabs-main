@@ -1,4 +1,4 @@
-# E?MT E  Prep — Static Study Website
+# EMT Exam Prep — Static Study Website
 
 A mobile-friendly study website that works with **plain HTML, CSS and JavaScript**. It has no backend, login, package manager, build step or internet dependency.
 
@@ -19,7 +19,7 @@ A mobile-friendly study website that works with **plain HTML, CSS and JavaScript
 
 ## Current question-bank status
 
-The file `questions.js` contains **384 questions** from the uploaded scanned exam packet, with **382 proposed answers**. Two questions have no reliable listed correct answer. All questions have four choice slots now, but some text was recovered from imperfect OCR. **68 questions are flagged for review**. An orange note appears on those questions in the interface. Do **not** treat all proposed answers as your instructor's official key or as clinical protocols.
+The file `questions.js` contains **384 questions** from the uploaded scanned exam packet. **All 384 have A–D answer letters** and can be scored; **58 are teacher-confirmed**, **2 are user-confirmed** (not specifically attributed to the teacher), and **324 remain provisional**. **63 questions retain transcription or guideline-review flags** (including some with teacher-confirmed answers). **All nine image-based questions have images attached.** The website shows when an answer is teacher-confirmed; other answers remain labeled provisional. Do not treat the provisional answers as your instructor's official key or as current clinical protocols.
 
 The PDF supplied these actual groupings:
 
@@ -96,3 +96,9 @@ For any new image in the future, put it in `images/`, then update the correspond
 ## Safety of proposed answers
 
 These quizzes are for study, not for live patient care. Some questions were written using older EMS protocols. Where the source wording or current practices are disputed, verify against your course materials, local medical direction, and current guidelines before assigning the final answer. Questions with `correctAnswer: null` appear in the quiz but **are excluded from the graded denominator** and shown separately on the results screen.
+
+## Correction history
+
+See `CORRECTIONS.md` for user/instructor confirmations. The study quiz uses the teacher-confirmed D for Section 5 Q72 and C for Section 6 Q66, but retains clinical cautions in question metadata. Section 1 Q28 was changed to D using the latest attached answer-key CSV. The explicit teacher-confirmed A for combined Sections 2 & 3 Q54 takes priority over an older stale D in the attached CSV.
+
+See `MASTER_ANSWER_KEY.csv` for the full 384-row key, `CONFIRMED_ANSWERS_ONLY.csv` for teacher-confirmed letters with confirmation sources, and `REMAINING_ISSUES.md` for missing pages and source/OCR caveats.
