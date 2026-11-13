@@ -1,6 +1,6 @@
 # WH40K 11e Companion
 
-Single-file Warhammer 40,000 11th edition datasheets, army builder and reference app.
+Single-file   40,000 11th edition datasheets, army builder and reference app.
 
 Live: https://piperpb.github.io/wh40k-11e-companion/
 
